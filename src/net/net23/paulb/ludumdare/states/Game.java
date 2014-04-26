@@ -34,6 +34,8 @@ public class Game extends BasicGameState {
 	
 	@Override
 	public void init(GameContainer gc, StateBasedGame gs) throws SlickException {
+		System.out.println("HellO!");
+		
 		this.level = new Level(12368216);
 		
 		this.player = new Player( this.level.getPlayerSpawnX(), this.level.getPlayerSpawnY(), 16, 16, 0.1, 0.1, "res/textures/sprites/player.png");
