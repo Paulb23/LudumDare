@@ -27,9 +27,11 @@ public class Player extends Mob {
 		g.drawImage(image, this.getX(), this.getY());
 	}
 	
+	
 	public void update(Input input, int delta) {
 		this.move(input, delta);
 	}
+	
 	
 	public void move(Input input, int delta) {
 		if (input.isKeyDown(Input.KEY_W)) {
