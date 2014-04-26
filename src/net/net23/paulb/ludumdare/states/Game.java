@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import net.net23.paulb.ludumdare.entities.AI;
 import net.net23.paulb.ludumdare.entities.Entity;
 import net.net23.paulb.ludumdare.entities.Knight;
+import net.net23.paulb.ludumdare.entities.Mob;
 import net.net23.paulb.ludumdare.entities.Player;
 import net.net23.paulb.ludumdare.maps.Level;
 
@@ -88,18 +89,7 @@ public class Game extends BasicGameState {
 		
 		this.level.render(g);
 		
-		Collections.sort(entities, new Comparator<Entity>() {
-
-			@Override
-			public int compare(Entity e1, Entity e2) {
-				
-				if (e1.getY() < e2.getY()) { return -1; }
-				if (e1.getY() == e2.getY()) { return 0; }
-				if (e1.getY() > e2.getY()) { return 1; }
-
-				return 0;
-			}
-		});
+		sortDepthOrder();
 		
 		for (Entity q : entities) {
 			q.render(g);
@@ -131,9 +121,29 @@ public class Game extends BasicGameState {
 				gs.enterState(0);
 			}
 			
+			int playerDirection = this.player.getDirection();
+			
+			if (playerDirection == 8) {
+				for (Entity i : entities) {
+					if (player.getY() > i.getY()) {
+						int distance = player.getY() - i.getY();
+						
+						if (distance <= 8) {
+							((Mob) i).takeDamage(player.getDamage());
+						}
+					}
+					
+					if (((Mob) i).getHealth() <= 0) {
+						entities.remove(i);
+					}
+				}
+			}
+			
 			if (input.isKeyPressed(Input.KEY_P)) {
 				paused = true;
 			}
+			
+			
 		} else {
 			if (input.isKeyPressed(Input.KEY_P)) {
 				paused = false;
@@ -148,6 +158,22 @@ public class Game extends BasicGameState {
 	@Override
 	public int getID() {
 		return this.state;
+	}
+	
+	private void sortDepthOrder() {
+		Collections.sort(entities, new Comparator<Entity>() {
+
+			@Override
+			public int compare(Entity e1, Entity e2) {
+				
+				if (e1.getY() < e2.getY()) { return -1; }
+				if (e1.getY() == e2.getY()) { return 0; }
+				if (e1.getY() > e2.getY()) { return 1; }
+
+				return 0;
+			}
+		});
+		
 	}
 
 }

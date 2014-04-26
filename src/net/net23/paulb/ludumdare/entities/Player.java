@@ -235,5 +235,14 @@ public class Player extends Mob {
 	public void Alive() {
 		this.dead = false;
 	}
+	
+	public int getDirection() {
+		return this.directrion;
+	}
+
+
+	public int getDamage() {
+		return 10;
+	}
 
 }
