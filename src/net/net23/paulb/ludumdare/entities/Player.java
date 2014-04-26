@@ -117,11 +117,11 @@ public class Player extends Mob {
 	public void move(Input input, int delta) {
 		
 		if (input.isKeyDown(Input.KEY_W) && canMoveUp && !input.isKeyDown(Input.KEY_A) && !input.isKeyDown(Input.KEY_S) && !input.isKeyDown(Input.KEY_D )) {
-			this.setY((int )(this.getY() - this.getYSpeed() * delta));
+			this.setY((int )(this.getY() - (this.getYSpeed() / 2) * delta));
 			directrion = 1;
 		} 
 		if (input.isKeyDown(Input.KEY_A) && canMoveLeft && !input.isKeyDown(Input.KEY_W) && !input.isKeyDown(Input.KEY_S) && !input.isKeyDown(Input.KEY_D )) {
-			this.setX((int )(this.getX() - this.getXSpeed() * delta));
+			this.setX((int )(this.getX() - (this.getXSpeed() / 2 )* delta));
 			directrion = 5;
 		}
 		if (input.isKeyDown(Input.KEY_S) && canMoveDown && !input.isKeyDown(Input.KEY_A) && !input.isKeyDown(Input.KEY_W) && !input.isKeyDown(Input.KEY_D )) {

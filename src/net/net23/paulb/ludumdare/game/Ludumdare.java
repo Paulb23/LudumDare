@@ -13,7 +13,7 @@ public class Ludumdare extends StateBasedGame {
 	public static int MENUSTATE = 0;
 	public static int GAMESTATE = 1;
 	
-	public static boolean SHOWFPS = false;
+	public static boolean SHOWFPS = true;
 	
 	
 	private static String GAMETITLE = "The Underground";

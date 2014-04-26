@@ -21,10 +21,7 @@ public class Game extends BasicGameState {
 	
 	private int xOffset;
 	private int yOffset;
-	
-	private int mapWidth;
-	private int mapHeight;
-	
+
 	private boolean paused;
 	private Image pauseScreen;
 	
@@ -44,9 +41,6 @@ public class Game extends BasicGameState {
 		this.level = new Level(12368216);
 		
 		this.player = new Player( this.level.getPlayerSpawnX(), this.level.getPlayerSpawnY(), 16, 16, 0.1, 0.1, "res/textures/sprites/player.png");
-		
-		this.mapWidth = level.getMapWidth();
-		this.mapHeight = level.getMapHeight();
 		
 		this.xOffset = 0;
 		this.yOffset = 0;
