@@ -1,5 +1,6 @@
 package net.net23.paulb.ludumdare.states;
 
+import org.lwjgl.opengl.Display;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -34,7 +35,14 @@ public class Menu extends BasicGameState {
 		Input input = gc.getInput();
 		
 		if (input.isKeyDown(Input.KEY_ENTER)) {
+			gc.getInput();
 			gs.enterState(1, new EmptyTransition(), new SelectTransition());
+		}
+		
+		if (input.isKeyDown(Input.KEY_ESCAPE)) {
+			Display.destroy();
+			gc.exit();
+			System.exit(0);
 		}
 	}
 
