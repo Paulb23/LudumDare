@@ -26,7 +26,7 @@ public class Menu extends BasicGameState {
 	}
 
 	@Override
-	public void render(GameContainer gc, StateBasedGame gs, Graphics g) throws SlickException {
+	public void render(GameContainer gc, StateBasedGame gs, Graphics g) throws SlickException {	
 		this.title.draw(0,0);
 	}
 

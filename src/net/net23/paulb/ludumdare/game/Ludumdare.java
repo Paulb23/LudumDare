@@ -16,7 +16,7 @@ public class Ludumdare extends StateBasedGame {
 	public static boolean DEBUG = false;
 	
 	
-	private static String GAMETITLE = "My Game!";
+	private static String GAMETITLE = "The Underground";
 	private static int SCREENWIDTH = 800;
 	private static int SCREENHEIGHT= 600;
 	
@@ -43,6 +43,10 @@ public class Ludumdare extends StateBasedGame {
 			app.setDisplayMode(SCREENWIDTH, SCREENHEIGHT, false);
 			app.setTargetFrameRate(60);
 			app.setVSync(true);
+			
+			String[] icons = {"res/icons/icon16.png" ,"res/icons/icon32.png", "res/icons/icon64.png", "res/icons/icon128.png"};
+			
+			app.setIcons(icons);
 			app.start();
 			
 			if (DEBUG) {
