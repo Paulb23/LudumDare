@@ -42,6 +42,7 @@ public class Ludumdare extends StateBasedGame {
 			AppGameContainer app = new AppGameContainer(new Ludumdare(GAMETITLE));
 			app.setDisplayMode(SCREENWIDTH, SCREENHEIGHT, false);
 			app.setTargetFrameRate(60);
+			app.setVSync(true);
 			app.start();
 			
 			if (DEBUG) {

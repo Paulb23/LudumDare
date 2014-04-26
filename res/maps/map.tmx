@@ -1,21 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="100" height="100" tilewidth="16" tileheight="16">
+<map version="1.0" orientation="orthogonal" width="16" height="16" tilewidth="16" tileheight="16">
  <tileset firstgid="1" name="tiles" tilewidth="16" tileheight="16">
+  <properties>
+   <property name="Solid" value="true"/>
+  </properties>
   <image source="../textures/tiles/tiles.png" trans="ff00ff" width="800" height="600"/>
   <tile id="0">
    <properties>
     <property name="Solid" value="true"/>
    </properties>
   </tile>
+  <tile id="2">
+   <properties>
+    <property name="Solid" value="true"/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="Solid" value="true"/>
+   </properties>
+  </tile>
+  <tile id="4">
+   <properties>
+    <property name="Solid" value="true"/>
+   </properties>
+  </tile>
+  <tile id="5">
+   <properties>
+    <property name="Solid" value="true"/>
+   </properties>
+  </tile>
+  <tile id="6">
+   <properties>
+    <property name="Solid" value="true"/>
+   </properties>
+  </tile>
+  <tile id="7">
+   <properties>
+    <property name="Solid" value="true"/>
+   </properties>
+  </tile>
+  <tile id="8">
+   <properties>
+    <property name="Solid" value="true"/>
+   </properties>
+  </tile>
+  <tile id="9">
+   <properties>
+    <property name="Solid" value="true"/>
+   </properties>
+  </tile>
+  <tile id="10">
+   <properties>
+    <property name="Solid" value="true"/>
+   </properties>
+  </tile>
  </tileset>
- <layer name="background" width="100" height="100">
+ <layer name="background" width="16" height="16">
   <data encoding="base64" compression="zlib">
-   eJztwwEJAAAMBKHr9P27DZZDwVVTVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/AXUlyJo=
+   eJwzZmBgMB7Fo3gUj0gMAG/6MwE=
   </data>
  </layer>
- <layer name="Map" width="100" height="100" visible="0">
+ <layer name="Map" width="16" height="16">
   <data encoding="base64" compression="zlib">
-   eJztzjEKACAQBLE9//9oK0vBQjjBDKSfSlI8ZTWyr/vxJyd1PwIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA90zDDScB
+   eJytkNsKwCAMQ+vmdPr/H+wKCkHc7GWBvHlik0BEobs8PjdO8H52pr2ujwwJz4pOfnUDd7+FPGaMzTTsEPeQ3oyqCv54+Ve7GQr3s/CYYeVZ1v2Q93Tw7vgnb3UD4mYBNg==
   </data>
  </layer>
 </map>
