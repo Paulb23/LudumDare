@@ -50,8 +50,8 @@ public class Game extends BasicGameState {
 		if (xOffset > 0) { xOffset = 0; }
 		if (yOffset > 0) { yOffset = 0; }
 		
-		if (-xOffset > mapWidth) { xOffset = -mapWidth; System.out.println("Hello"); }
-		if (-yOffset > mapHeight) { yOffset = -mapHeight; }
+		if (xOffset < -56) { xOffset = -56; }
+		if (yOffset < -106) { yOffset = -106; }
 		
 		g.translate(xOffset, yOffset );
 		

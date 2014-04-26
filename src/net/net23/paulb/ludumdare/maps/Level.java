@@ -1,11 +1,9 @@
 package net.net23.paulb.ludumdare.maps;
 
-import net.net23.paulb.ludumdare.entities.Entity;
 import net.net23.paulb.ludumdare.entities.Tile;
 
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.tiled.TiledMap;
 
 public class Level {
