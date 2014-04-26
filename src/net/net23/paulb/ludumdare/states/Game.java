@@ -21,6 +21,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.EmptyTransition;
 import org.newdawn.slick.state.transition.SelectTransition;
 
+import com.sun.xml.internal.bind.v2.runtime.unmarshaller.IntArrayData;
 import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 
 public class Game extends BasicGameState {
@@ -128,13 +129,47 @@ public class Game extends BasicGameState {
 					if (player.getY() > i.getY()) {
 						int distance = player.getY() - i.getY();
 						
-						if (distance <= 8) {
-							((Mob) i).takeDamage(player.getDamage());
+						if (distance <= 10) {
+							((Mob) i).takeDamage(player.getDamage());;
 						}
 					}
-					
-					if (((Mob) i).getHealth() <= 0) {
-						entities.remove(i);
+				}
+			}
+			
+			if (playerDirection == 9) {
+				for (Entity i : entities) {
+					if (player.getX() < i.getX()) {
+						int distance = player.getX() - i.getX();
+						int distanceY = player.getY() - i.getY();
+						
+						if (distance <= 10 && distanceY <= 10) {
+							((Mob) i).takeDamage(player.getDamage()); 
+						}
+					}
+				}
+			}
+			
+			if (playerDirection == 10) {
+				for (Entity i : entities) {
+					if (player.getX() > i.getX()) {
+						int distance = player.getX() - i.getX();
+						int distanceY = player.getY() - i.getY();
+						
+						if (distance <= 10 && distanceY <= 10) {
+							((Mob) i).takeDamage(player.getDamage()); 
+						}
+					}
+				}
+			}
+			
+			if (playerDirection == 11 ) {
+				for (Entity i : entities) {
+					if (player.getY() < i.getY()) {
+						int distance = player.getY() - i.getY();
+						
+						if (distance <= 10) {
+							((Mob) i).takeDamage(player.getDamage());;
+						}
 					}
 				}
 			}
@@ -143,6 +178,7 @@ public class Game extends BasicGameState {
 				paused = true;
 			}
 			
+			entityHealthCheck();
 			
 		} else {
 			if (input.isKeyPressed(Input.KEY_P)) {
@@ -174,6 +210,15 @@ public class Game extends BasicGameState {
 			}
 		});
 		
+	}
+	
+	public void entityHealthCheck() {
+		for (int i = entities.size() - 1; i >= 0; --i) {
+		    if (((Mob) entities.get(i)).getHealth() < 0) {
+		    	entities.remove(i);
+		    	break;
+		    }
+		}
 	}
 
 }

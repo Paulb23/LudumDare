@@ -242,7 +242,7 @@ public class Player extends Mob {
 
 
 	public int getDamage() {
-		return 10;
+		return 1;
 	}
 
 }
