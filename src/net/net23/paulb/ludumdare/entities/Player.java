@@ -25,6 +25,8 @@ public class Player extends Mob {
 	private Animation walkLeft;
 	private Animation walkDown;
 	
+	private Animation attackUp;
+	
 	private int directrion;
 	
 	private boolean dead;
@@ -53,6 +55,7 @@ public class Player extends Mob {
 			
 			this.idleUp = spriteSheet.getSprite(0, 0);
 			this.idleRight = spriteSheet.getSprite(0, 1);
+			this.idleLeft = spriteSheet.getSprite(0, 2);
 			this.idleDown = spriteSheet.getSprite(0, 3);
 			
 		} catch (SlickException e) {
@@ -134,7 +137,21 @@ public class Player extends Mob {
 		}
 		
 		if (!input.isKeyDown(Input.KEY_W) && !input.isKeyDown(Input.KEY_A) && !input.isKeyDown(Input.KEY_S) && !input.isKeyDown(Input.KEY_D )) {
-			directrion = 0;
+			switch (directrion) {
+				case 1:
+					directrion = 0;
+					break;
+				case 3:
+					directrion = 2;
+					break;
+				case 5:
+					directrion = 4;
+					break;
+				case 7:
+					directrion = 6;
+					break;
+
+			}
 		}
 	}
 	
