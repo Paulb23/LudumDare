@@ -1,5 +1,7 @@
 package net.net23.paulb.ludumdare.states;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 
 import net.net23.paulb.ludumdare.entities.AI;
@@ -18,6 +20,8 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.EmptyTransition;
 import org.newdawn.slick.state.transition.SelectTransition;
 
+import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
+
 public class Game extends BasicGameState {
 
 	private int state;
@@ -31,6 +35,7 @@ public class Game extends BasicGameState {
 	private Image pauseScreen;
 	
 	private Knight knight;
+	private Knight knight2;
 	
 	private LinkedList<Entity> entities;
 	
@@ -52,10 +57,12 @@ public class Game extends BasicGameState {
 		this.entities = new LinkedList<Entity>();
 		
 		this.player = new Player( this.level.getPlayerSpawnX(), this.level.getPlayerSpawnY(), 16, 16, 0.1, 0.1, 100, "res/textures/sprites/player.png");
-		this.knight = new Knight( this.level.getPlayerSpawnX(), this.level.getPlayerSpawnY(), 16, 16, 0.1, 0.1, 100, "res/textures/sprites/player.png");
+		this.knight = new Knight( this.level.getPlayerSpawnX(), this.level.getPlayerSpawnY(), 16, 16, 0.1, 0.1, 100, "res/textures/sprites/knight.png");
+		this.knight2 = new Knight( this.level.getPlayerSpawnX(), this.level.getPlayerSpawnY() - 50, 16, 16, 0.1, 0.1, 100, "res/textures/sprites/knight.png");
 		
 		entities.add(this.player);
 		entities.add(this.knight);
+		entities.add(this.knight2);
 		
 		this.xOffset = 0;
 		this.yOffset = 0;
@@ -81,22 +88,18 @@ public class Game extends BasicGameState {
 		
 		this.level.render(g);
 		
-		boolean swaped = true;
-		int i = 0;
-		
-		while (swaped) {
-			swaped = false;
-			
-			if (i + 1 < entities.size()) {
-				if (entities.get(i).getY() > entities.get(i+1).getY()) { Entity j = entities.get(i);  Entity k = entities.get(i + 1); entities.set(i + 1, j); entities.set(i, k); swaped = true;}
+		Collections.sort(entities, new Comparator<Entity>() {
+
+			@Override
+			public int compare(Entity e1, Entity e2) {
+				
+				if (e1.getY() < e2.getY()) { return -1; }
+				if (e1.getY() == e2.getY()) { return 0; }
+				if (e1.getY() > e2.getY()) { return 1; }
+
+				return 0;
 			}
-			
-			i++;
-			
-			if (i > entities.size()) {
-				i = 0;
-			}
-		}
+		});
 		
 		for (Entity q : entities) {
 			q.render(g);
