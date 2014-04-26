@@ -13,7 +13,7 @@ public class Ludumdare extends StateBasedGame {
 	public static int MENUSTATE = 0;
 	public static int GAMESTATE = 1;
 	
-	public static boolean DEBUG = false;
+	public static boolean SHOWFPS = false;
 	
 	
 	private static String GAMETITLE = "The Underground";
@@ -44,17 +44,18 @@ public class Ludumdare extends StateBasedGame {
 			app.setTargetFrameRate(60);
 			app.setVSync(true);
 			
+			if (SHOWFPS) {
+				app.setShowFPS(true);
+			} else {
+				app.setShowFPS(false);
+			}
+			
+			
 			String[] icons = {"res/icons/icon16.png" ,"res/icons/icon32.png", "res/icons/icon64.png", "res/icons/icon128.png"};
 			
 			app.setIcons(icons);
 			app.start();
-			
-			if (DEBUG) {
-				app.setShowFPS(false);
-			} else {
-				app.setShowFPS(true);
-			}
-			
+		
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
