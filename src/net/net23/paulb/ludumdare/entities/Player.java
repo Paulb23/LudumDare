@@ -26,13 +26,17 @@ public class Player extends Mob {
 	private Animation walkDown;
 	
 	private Animation attackUp;
+	private Animation attackRight;
+	private Animation attackLeft;
+	private Animation attackDown;
 	
 	private int directrion;
 	
 	private boolean dead;
 	
+	private int beforeAttackdir;
 	
-	private boolean canMoveDown, canMoveUp, canMoveRight, canMoveLeft;
+	private boolean canMoveDown, canMoveUp, canMoveRight, canMoveLeft, attacking;
 	
 	public Player(int x, int y, int w, int h, double xSpeed, double ySpeed, String path) {
 		super(x, y, w, h, xSpeed, ySpeed);
@@ -47,11 +51,20 @@ public class Player extends Mob {
 			Image[] walkrighti = {this.spriteSheet.getSprite(1, 1), this.spriteSheet.getSprite(2, 1) };
 			Image[] walkleftti = {this.spriteSheet.getSprite(2, 2), this.spriteSheet.getSprite(1, 2) };
 			Image[] walkdowni = {this.spriteSheet.getSprite(1, 3), this.spriteSheet.getSprite(2, 3) };
+			Image[] attackupi = {this.spriteSheet.getSprite(0, 4), this.spriteSheet.getSprite(1, 4), this.spriteSheet.getSprite(1, 4), this.spriteSheet.getSprite(1, 4) };
+			Image[] attackrighti = {this.spriteSheet.getSprite(0, 5), this.spriteSheet.getSprite(1, 5), this.spriteSheet.getSprite(1, 5), this.spriteSheet.getSprite(1, 5) };
+			Image[] attacklefti = {this.spriteSheet.getSprite(0, 6), this.spriteSheet.getSprite(1, 6), this.spriteSheet.getSprite(1, 6), this.spriteSheet.getSprite(1, 6) };
+			Image[] attackdowni = {this.spriteSheet.getSprite(0, 7), this.spriteSheet.getSprite(1, 7), this.spriteSheet.getSprite(1, 7), this.spriteSheet.getSprite(1, 7) };
 			
 			this.walkUp = new Animation(walkupi, 250);
 			this.walkRight = new Animation(walkrighti, 250);
 			this.walkLeft = new Animation(walkleftti, 250);
 			this.walkDown = new Animation(walkdowni, 250);
+			
+			this.attackUp = new Animation(attackupi, 250); 
+			this.attackRight = new Animation(attackrighti, 250); 
+			this.attackLeft = new Animation(attacklefti, 250); 
+			this.attackDown = new Animation(attackdowni, 250); 
 			
 			this.idleUp = spriteSheet.getSprite(0, 0);
 			this.idleRight = spriteSheet.getSprite(0, 1);
@@ -68,6 +81,8 @@ public class Player extends Mob {
 		this.canMoveRight = false;
 		this.canMoveDown = false;
 		this.dead = false;
+		this.attacking = false;
+		this.beforeAttackdir = 0;
 	}
 	
 	
@@ -97,6 +112,28 @@ public class Player extends Mob {
 			case 7:
 				g.drawAnimation(this.walkDown, this.getX() + camX, this.getY() + camY);
 				break;
+			case 8:
+				g.drawAnimation(this.attackUp, this.getX() + camX, this.getY() + camY);
+				break;
+			case 9:
+				g.drawAnimation(this.attackRight, this.getX() + camX, this.getY() + camY);
+				break;
+			case 10:
+				g.drawAnimation(this.attackLeft, this.getX() + camX, this.getY() + camY);
+				break;
+			case 11:
+				g.drawAnimation(this.attackDown, this.getX() + camX, this.getY() + camY);
+				break;
+		}
+		
+		if (attackUp.getFrame() == 3 || attackRight.getFrame() == 3  || attackLeft.getFrame() == 3  || attackDown.getFrame() == 3) {
+			attacking = false;
+			directrion = beforeAttackdir;
+			
+			attackUp.restart();	
+			attackRight.restart();	
+			attackLeft.restart();	
+			attackDown.restart();	
 		}
 		
 	}
@@ -119,38 +156,63 @@ public class Player extends Mob {
 	
 	public void move(Input input, int delta) {
 		
-		if (input.isKeyDown(Input.KEY_W) && canMoveUp && !input.isKeyDown(Input.KEY_A) && !input.isKeyDown(Input.KEY_S) && !input.isKeyDown(Input.KEY_D )) {
-			this.setY((int )(this.getY() - (this.getYSpeed() / 2) * delta));
-			directrion = 1;
-		} 
-		if (input.isKeyDown(Input.KEY_A) && canMoveLeft && !input.isKeyDown(Input.KEY_W) && !input.isKeyDown(Input.KEY_S) && !input.isKeyDown(Input.KEY_D )) {
-			this.setX((int )(this.getX() - (this.getXSpeed() / 2 )* delta));
-			directrion = 5;
-		}
-		if (input.isKeyDown(Input.KEY_S) && canMoveDown && !input.isKeyDown(Input.KEY_A) && !input.isKeyDown(Input.KEY_W) && !input.isKeyDown(Input.KEY_D )) {
-			this.setY((int )(this.getY() + this.getYSpeed() * delta));
-			directrion = 7;
-		}
-		if (input.isKeyDown(Input.KEY_D) && canMoveRight && !input.isKeyDown(Input.KEY_A) && !input.isKeyDown(Input.KEY_S) && !input.isKeyDown(Input.KEY_W )) {
-			this.setX((int )(this.getX() + this.getXSpeed() * delta));
-			directrion = 3;
-		}
+		if (input.isKeyPressed(Input.KEY_UP) && !attacking) { 
+			beforeAttackdir = 0;
+			attacking = true;
+			
+			directrion = 8;
 		
-		if (!input.isKeyDown(Input.KEY_W) && !input.isKeyDown(Input.KEY_A) && !input.isKeyDown(Input.KEY_S) && !input.isKeyDown(Input.KEY_D )) {
-			switch (directrion) {
-				case 1:
-					directrion = 0;
-					break;
-				case 3:
-					directrion = 2;
-					break;
-				case 5:
-					directrion = 4;
-					break;
-				case 7:
-					directrion = 6;
-					break;
+		} else if (input.isKeyPressed(Input.KEY_RIGHT) && !attacking) {
+			beforeAttackdir = 2;
+			attacking = true;
+			
+			directrion = 9;
+			
+		} else if (input.isKeyPressed(Input.KEY_LEFT) && !attacking) {
+			beforeAttackdir = 4;
+			attacking = true;
+			
+			directrion = 10;
+			
+		} else if (input.isKeyPressed(Input.KEY_DOWN) && !attacking) {
+			beforeAttackdir = 6;
+			attacking = true;
+			
+			directrion = 11;
 
+		} else if (!attacking) {
+			if (input.isKeyDown(Input.KEY_W) && canMoveUp && !input.isKeyDown(Input.KEY_A) && !input.isKeyDown(Input.KEY_S) && !input.isKeyDown(Input.KEY_D ) && !attacking) {
+				this.setY((int )(this.getY() - (this.getYSpeed() / 2) * delta));
+				directrion = 1;
+			} 
+			if (input.isKeyDown(Input.KEY_A) && canMoveLeft && !input.isKeyDown(Input.KEY_W) && !input.isKeyDown(Input.KEY_S) && !input.isKeyDown(Input.KEY_D ) && !attacking) {
+				this.setX((int )(this.getX() - (this.getXSpeed() / 2 )* delta));
+				directrion = 5;
+			}
+			if (input.isKeyDown(Input.KEY_S) && canMoveDown && !input.isKeyDown(Input.KEY_A) && !input.isKeyDown(Input.KEY_W) && !input.isKeyDown(Input.KEY_D ) && !attacking) {
+				this.setY((int )(this.getY() + this.getYSpeed() * delta));
+				directrion = 7;
+			}
+			if (input.isKeyDown(Input.KEY_D) && canMoveRight && !input.isKeyDown(Input.KEY_A) && !input.isKeyDown(Input.KEY_S) && !input.isKeyDown(Input.KEY_W ) && !attacking) {
+				this.setX((int )(this.getX() + this.getXSpeed() * delta));
+				directrion = 3;
+			}
+			
+			if (!input.isKeyDown(Input.KEY_W) && !input.isKeyDown(Input.KEY_A) && !input.isKeyDown(Input.KEY_S) && !input.isKeyDown(Input.KEY_D ) && !attacking) {
+				switch (directrion) {
+					case 1:
+						directrion = 0;
+						break;
+					case 3:
+						directrion = 2;
+						break;
+					case 5:
+						directrion = 4;
+						break;
+					case 7:
+						directrion = 6;
+						break;
+				}
 			}
 		}
 	}
