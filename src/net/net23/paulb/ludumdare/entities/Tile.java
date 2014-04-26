@@ -12,4 +12,7 @@ public class Tile extends Entity {
 		this.collision = collision;
 	}
 
+	public boolean isSolid() {
+		return this.collision;
+	}
 }

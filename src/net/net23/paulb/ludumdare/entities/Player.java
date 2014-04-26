@@ -1,5 +1,7 @@
 package net.net23.paulb.ludumdare.entities;
 
+import net.net23.paulb.ludumdare.maps.Level;
+
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
@@ -11,11 +13,7 @@ public class Player extends Mob {
 
 	private Image image;
 	private SpriteSheet spriteSheet;
-	private boolean grounded;
-	
-	private double gravity = 0.7;
-	private double maxYSpeed = 0.2;
-	
+	private boolean canMoveDown, canMoveUp, canMoveRight, canMoveLeft;
 	
 	public Player(int x, int y, int w, int h, double xSpeed, double ySpeed, String path) {
 		super(x, y, w, h, xSpeed, ySpeed);
@@ -27,7 +25,11 @@ public class Player extends Mob {
 			e.printStackTrace();
 		}
 		
-		this.grounded = false;
+
+		this.canMoveLeft = false;
+		this.canMoveUp = false;
+		this.canMoveRight = false;
+		this.canMoveDown = false;
 	}
 	
 	
@@ -40,28 +42,29 @@ public class Player extends Mob {
 		this.move(input, delta);
 	}
 	
+	public void checkCollision(Level level) {
+		int tileX = this.getX() / level.TILESIZE;
+		int tileY = this.getY() / level.TILESIZE;
+		
+
+		if (level.collision(tileX, tileY,     this)) { canMoveUp = false;}    else {canMoveUp = true;} 
+		if (level.collision(tileX, tileY + 1, this)) { canMoveDown = false;}  else {canMoveDown = true;} 
+		if (level.collision(tileX, tileY, this)) { canMoveLeft = false;}  else {canMoveLeft = true;} 
+		if (level.collision(tileX + 1, tileY, this)) { canMoveRight = false;} else {canMoveRight = true;} 
+	}
 	
 	public void move(Input input, int delta) {
 		
-		// gravity
-	//	if (!grounded) {
-	//		this.setY((int )(this.getY() + (this.getYSpeed() + gravity) * delta));
-	//	}
-	//	
-	//	if (this.getYSpeed() > maxYSpeed) {
-	//		this.setYSpeed(maxYSpeed);
-	//	}
-		
-		if (input.isKeyDown(Input.KEY_W)) {
+		if (input.isKeyDown(Input.KEY_W) && canMoveUp) {
 			this.setY((int )(this.getY() - this.getYSpeed() * delta));
 		}
-		if (input.isKeyDown(Input.KEY_A)) {
+		if (input.isKeyDown(Input.KEY_A) && canMoveLeft) {
 			this.setX((int )(this.getX() - this.getXSpeed() * delta));
 		}
-		if (input.isKeyDown(Input.KEY_S)) {
+		if (input.isKeyDown(Input.KEY_S) && canMoveDown) {
 			this.setY((int )(this.getY() + this.getYSpeed() * delta));
 		}
-		if (input.isKeyDown(Input.KEY_D)) {
+		if (input.isKeyDown(Input.KEY_D) && canMoveRight) {
 			this.setX((int )(this.getX() + this.getXSpeed() * delta));
 		}
 	}

@@ -28,8 +28,9 @@ public class Game extends BasicGameState {
 	
 	@Override
 	public void init(GameContainer gc, StateBasedGame gs) throws SlickException {
-		this.player = new Player( 32, 32, 16, 16, 0.1, 0.1, "res/textures/sprites/player.png");
 		this.level = new Level(12368216);
+		
+		this.player = new Player( this.level.getPlayerSpawnX(), this.level.getPlayerSpawnY(), 16, 16, 0.1, 0.1, "res/textures/sprites/player.png");
 		
 		this.mapWidth = level.getMapWidth();
 		this.mapHeight = level.getMapHeight();
@@ -63,6 +64,7 @@ public class Game extends BasicGameState {
 	public void update(GameContainer gc, StateBasedGame gs, int delta) throws SlickException {
 		Input input = gc.getInput();
 		
+		player.checkCollision(this.level);
 		player.update(input, delta);
 		
 		if (this.player.getX() < 0 ) { this.player.setX(0); }

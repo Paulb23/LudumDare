@@ -2,10 +2,20 @@
 <map version="1.0" orientation="orthogonal" width="100" height="100" tilewidth="16" tileheight="16">
  <tileset firstgid="1" name="tiles" tilewidth="16" tileheight="16">
   <image source="../textures/tiles/tiles.png" trans="ff00ff" width="800" height="600"/>
+  <tile id="0">
+   <properties>
+    <property name="Solid" value="true"/>
+   </properties>
+  </tile>
  </tileset>
- <layer name="Map" width="100" height="100">
+ <layer name="background" width="100" height="100">
   <data encoding="base64" compression="zlib">
-   eJztwzENAAAMA6DWv+la2D9ISG6qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqoPDkUdJwc=
+   eJztwwEJAAAMBKHr9P27DZZDwVVTVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/AXUlyJo=
+  </data>
+ </layer>
+ <layer name="Map" width="100" height="100" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJztzjEKACAQBLE9//9oK0vBQjjBDKSfSlI8ZTWyr/vxJyd1PwIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA90zDDScB
   </data>
  </layer>
 </map>
