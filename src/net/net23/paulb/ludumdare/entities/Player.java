@@ -30,8 +30,8 @@ public class Player extends Mob {
 	}
 	
 	
-	public void render(Graphics g) {
-		g.drawImage(image, this.getX(), this.getY());
+	public void render(Graphics g, int camX, int camY) {
+		g.drawImage(image, this.getX() + camX, this.getY() + camY);
 	}
 	
 	

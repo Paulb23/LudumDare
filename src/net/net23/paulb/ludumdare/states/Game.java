@@ -20,7 +20,7 @@ public class Game extends BasicGameState {
 	private int yOffset;
 	
 	private int mapWidth;
-	private int mapheight;
+	private int mapHeight;
 	
 	public Game(int state) {
 		this.state = state;
@@ -29,10 +29,10 @@ public class Game extends BasicGameState {
 	@Override
 	public void init(GameContainer gc, StateBasedGame gs) throws SlickException {
 		this.player = new Player( 32, 32, 16, 16, 0.5, 0.5, "res/textures/sprites/player.png");
-		this.level= new Level(12368216);
+		this.level = new Level(12368216);
 		
-		this.mapWidth = 100;
-		this.mapheight = 100;
+		this.mapWidth = level.getMapWidth();
+		this.mapHeight = level.getMapHeight();
 		
 		this.xOffset = 0;
 		this.yOffset = 0;
@@ -40,8 +40,22 @@ public class Game extends BasicGameState {
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame gs, Graphics g) throws SlickException {
-		this.level.render(g, xOffset, yOffset);
-		this.player.render(g);
+		g.scale(1.5f, 1.5f);
+		
+		xOffset = -(this.player.getX() - 250);
+		yOffset = -(this.player.getY() - 200);
+		
+		if (xOffset > 0) { xOffset = 0; }
+		if (yOffset > 0) { yOffset = 0; }
+		
+		if (-xOffset > mapWidth) { xOffset = -mapWidth; }
+		if (-yOffset > mapHeight) { yOffset = -mapHeight; }
+		
+		g.translate(xOffset, yOffset );
+		
+		this.level.render(g);
+		this.player.render(g, 0, 0);
+		
 	}
 
 	@Override
@@ -49,22 +63,6 @@ public class Game extends BasicGameState {
 		Input input = gc.getInput();
 		
 		player.update(input, delta);
-		
-		if (player.getY() + yOffset > 500) {
-			yOffset += 1;
-		}
-		
-		if (player.getY() - yOffset < 100 && yOffset > 0) {
-			yOffset -= 1;
-		}
-		
-		if (player.getX() + xOffset > 500) {
-			xOffset += 1;
-		}
-		
-		if (player.getX() - xOffset < 100 && xOffset > 0) {
-			xOffset -= 1;
-		}
 	}
 
 	@Override
