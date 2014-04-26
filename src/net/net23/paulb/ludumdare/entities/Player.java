@@ -108,15 +108,10 @@ public class Player extends Mob {
 		int tileY = this.getY() / level.TILESIZE;
 		
 
-		if (level.collision(tileX, tileY,     this)) { canMoveUp = false;}    else {canMoveUp = true;} 
-		if (level.collision(tileX, tileY + 1, this)) { canMoveDown = false;}  else {canMoveDown = true;} 
-		if (level.collision(tileX, tileY, this)) { canMoveLeft = false;}  else {canMoveLeft = true;} 
-		if (level.collision(tileX + 1, tileY, this)) { canMoveRight = false;} else {canMoveRight = true;}
-		
-		
-		if (level.checkHole(tileX, tileY)) {
-			this.dead = true;
-		}
+		if (level.collision(tileX, tileY     )) { canMoveUp = false;}    else {canMoveUp = true;} 
+		if (level.collision(tileX, tileY + 1 )) { canMoveDown = false;}  else {canMoveDown = true;} 
+		if (level.collision(tileX, tileY	 )) { canMoveLeft = false;}  else {canMoveLeft = true;} 
+		if (level.collision(tileX + 1, tileY )) { canMoveRight = false;} else {canMoveRight = true;}
 	}
 	
 	public void move(Input input, int delta) {
