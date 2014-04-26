@@ -1,5 +1,7 @@
 package net.net23.paulb.ludumdare.entities;
 
+import org.newdawn.slick.Graphics;
+
 public class Tile extends Entity {
 
 	private int hardness;
@@ -14,5 +16,10 @@ public class Tile extends Entity {
 
 	public boolean isSolid() {
 		return this.collision;
+	}
+
+	@Override
+	public void render(Graphics g) {
+		
 	}
 }

@@ -1,5 +1,10 @@
 package net.net23.paulb.ludumdare.states;
 
+import java.util.LinkedList;
+
+import net.net23.paulb.ludumdare.entities.AI;
+import net.net23.paulb.ludumdare.entities.Entity;
+import net.net23.paulb.ludumdare.entities.Knight;
 import net.net23.paulb.ludumdare.entities.Player;
 import net.net23.paulb.ludumdare.maps.Level;
 
@@ -25,6 +30,10 @@ public class Game extends BasicGameState {
 	private boolean paused;
 	private Image pauseScreen;
 	
+	private Knight knight;
+	
+	private LinkedList<Entity> entities;
+	
 	public Game(int state) {
 		this.state = state;
 	}
@@ -40,7 +49,13 @@ public class Game extends BasicGameState {
 	public void enter(GameContainer container, StateBasedGame game) throws SlickException {
 		this.level = new Level(12368216);
 		
-		this.player = new Player( this.level.getPlayerSpawnX(), this.level.getPlayerSpawnY(), 16, 16, 0.1, 0.1, "res/textures/sprites/player.png");
+		this.entities = new LinkedList<Entity>();
+		
+		this.player = new Player( this.level.getPlayerSpawnX(), this.level.getPlayerSpawnY(), 16, 16, 0.1, 0.1, 100, "res/textures/sprites/player.png");
+		this.knight = new Knight( this.level.getPlayerSpawnX(), this.level.getPlayerSpawnY(), 16, 16, 0.1, 0.1, 100, "res/textures/sprites/player.png");
+		
+		entities.add(this.player);
+		entities.add(this.knight);
 		
 		this.xOffset = 0;
 		this.yOffset = 0;
@@ -65,7 +80,28 @@ public class Game extends BasicGameState {
 		g.translate(xOffset, yOffset );
 		
 		this.level.render(g);
-		this.player.render(g, 0, 0);
+		
+		boolean swaped = true;
+		int i = 0;
+		
+		while (swaped) {
+			swaped = false;
+			
+			if (i + 1 < entities.size()) {
+				if (entities.get(i).getY() > entities.get(i+1).getY()) { Entity j = entities.get(i);  Entity k = entities.get(i + 1); entities.set(i + 1, j); entities.set(i, k); swaped = true;}
+			}
+			
+			i++;
+			
+			if (i > entities.size()) {
+				i = 0;
+			}
+		}
+		
+		for (Entity q : entities) {
+			q.render(g);
+		}
+
 		
 		if (paused) {
 			g.drawImage(this.pauseScreen, 0, 0);
@@ -88,11 +124,7 @@ public class Game extends BasicGameState {
 			if (this.player.getY() > this.level.getMapHeight()) { this.player.setY(this.level.getMapHeight());}
 			
 			if (this.player.isDead()) {
-				this.player = new Player( this.level.getPlayerSpawnX(), this.level.getPlayerSpawnY(), 16, 16, 0.1, 0.1, "res/textures/sprites/player.png");
-				
 				gs.enterState(0);
-				
-				this.player.Alive();
 			}
 			
 			if (input.isKeyPressed(Input.KEY_P)) {

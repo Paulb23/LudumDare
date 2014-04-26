@@ -36,10 +36,12 @@ public class Player extends Mob {
 	
 	private int beforeAttackdir;
 	
+	private int equipedWeapon;
+	
 	private boolean canMoveDown, canMoveUp, canMoveRight, canMoveLeft, attacking;
 	
-	public Player(int x, int y, int w, int h, double xSpeed, double ySpeed, String path) {
-		super(x, y, w, h, xSpeed, ySpeed);
+	public Player(int x, int y, int w, int h, double xSpeed, double ySpeed, double health, String path) {
+		super(x, y, w, h, xSpeed, ySpeed, health);
 		
 		try {
 			this.image = new Image(path);
@@ -83,46 +85,47 @@ public class Player extends Mob {
 		this.dead = false;
 		this.attacking = false;
 		this.beforeAttackdir = 0;
+		this.equipedWeapon = 0;
 	}
 	
 	
-	public void render(Graphics g, int camX, int camY) {
+	public void render(Graphics g) {
 		switch (directrion) {
 			case 0:
-				g.drawImage(this.idleUp, this.getX() + camX, this.getY() + camY);
+				g.drawImage(this.idleUp, this.getX(), this.getY());
 				break;
 			case 1:
-				g.drawAnimation(this.walkUp, this.getX() + camX, this.getY() + camY);
+				g.drawAnimation(this.walkUp, this.getX(), this.getY());
 				break;
 			case 2:
-				g.drawImage(this.idleRight, this.getX() + camX, this.getY() + camY);
+				g.drawImage(this.idleRight, this.getX(), this.getY());
 				break;
 			case 3:
-				g.drawAnimation(this.walkRight, this.getX() + camX, this.getY() + camY);
+				g.drawAnimation(this.walkRight, this.getX(), this.getY());
 				break;
 			case 4:
-				g.drawImage(this.idleLeft, this.getX() + camX, this.getY() + camY);
+				g.drawImage(this.idleLeft, this.getX(), this.getY());
 				break;
 			case 5:
-				g.drawAnimation(this.walkLeft, this.getX() + camX, this.getY() + camY);
+				g.drawAnimation(this.walkLeft, this.getX(), this.getY());
 				break;
 			case 6:
-				g.drawImage(this.idleDown, this.getX() + camX, this.getY() + camY);
+				g.drawImage(this.idleDown, this.getX() , this.getY());
 				break;
 			case 7:
-				g.drawAnimation(this.walkDown, this.getX() + camX, this.getY() + camY);
+				g.drawAnimation(this.walkDown, this.getX(), this.getY());
 				break;
 			case 8:
-				g.drawAnimation(this.attackUp, this.getX() + camX, this.getY() + camY);
+				g.drawAnimation(this.attackUp, this.getX(), this.getY());
 				break;
 			case 9:
-				g.drawAnimation(this.attackRight, this.getX() + camX, this.getY() + camY);
+				g.drawAnimation(this.attackRight, this.getX(), this.getY());
 				break;
 			case 10:
-				g.drawAnimation(this.attackLeft, this.getX() + camX, this.getY() + camY);
+				g.drawAnimation(this.attackLeft, this.getX(), this.getY());
 				break;
 			case 11:
-				g.drawAnimation(this.attackDown, this.getX() + camX, this.getY() + camY);
+				g.drawAnimation(this.attackDown, this.getX(), this.getY() );
 				break;
 		}
 		
@@ -155,6 +158,14 @@ public class Player extends Mob {
 	}
 	
 	public void move(Input input, int delta) {
+		
+		if (input.isKeyPressed(Input.KEY_1)) {
+			equipedWeapon = 0;
+		} else if (input.isKeyPressed(Input.KEY_2)) {
+			equipedWeapon = 1;
+		} else if (input.isKeyPressed(Input.KEY_3)) {
+			equipedWeapon = 2;
+		}
 		
 		if (input.isKeyPressed(Input.KEY_UP) && !attacking) { 
 			beforeAttackdir = 0;

@@ -1,5 +1,7 @@
 package net.net23.paulb.ludumdare.entities;
 
+import org.newdawn.slick.Graphics;
+
 public abstract class Entity {
 
 	private int x, y, w, h;
@@ -20,4 +22,6 @@ public abstract class Entity {
 	public int getW() { return this.w; } 
 	public int getH() { return this.h; } 
 	
+	
+	public abstract void render(Graphics g);
 }
