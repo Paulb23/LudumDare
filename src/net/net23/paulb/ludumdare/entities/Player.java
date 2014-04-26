@@ -22,6 +22,7 @@ public class Player extends Mob {
 		
 		try {
 			this.image = new Image(path);
+			this.image.setFilter(Image.FILTER_NEAREST);
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
