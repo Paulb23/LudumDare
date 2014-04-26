@@ -11,8 +11,8 @@ public abstract class Mob extends Entity {
 		this.ySpeed = ySpeed;
 	}
 	
-	public void setXSpeed( int x ) { this.xSpeed = x;}
-	public void setYSpeed( int y) {  this.ySpeed = y;}
+	public void setXSpeed( double x ) { this.xSpeed = x;}
+	public void setYSpeed( double y) {  this.ySpeed = y;}
 	
 	public double getXSpeed() { return this.xSpeed;}
 	public double getYSpeed() { return this.ySpeed;}

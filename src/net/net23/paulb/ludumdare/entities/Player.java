@@ -11,6 +11,11 @@ public class Player extends Mob {
 
 	private Image image;
 	private SpriteSheet spriteSheet;
+	private boolean grounded;
+	
+	private double gravity = 0.7;
+	private double maxYSpeed = 0.2;
+	
 	
 	public Player(int x, int y, int w, int h, double xSpeed, double ySpeed, String path) {
 		super(x, y, w, h, xSpeed, ySpeed);
@@ -20,6 +25,8 @@ public class Player extends Mob {
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
+		
+		this.grounded = false;
 	}
 	
 	
@@ -34,6 +41,16 @@ public class Player extends Mob {
 	
 	
 	public void move(Input input, int delta) {
+		
+		// gravity
+	//	if (!grounded) {
+	//		this.setY((int )(this.getY() + (this.getYSpeed() + gravity) * delta));
+	//	}
+	//	
+	//	if (this.getYSpeed() > maxYSpeed) {
+	//		this.setYSpeed(maxYSpeed);
+	//	}
+		
 		if (input.isKeyDown(Input.KEY_W)) {
 			this.setY((int )(this.getY() - this.getYSpeed() * delta));
 		}

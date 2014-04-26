@@ -17,7 +17,7 @@ public class Level {
 	}
 	
 	
-	public void render(Graphics g) {
-		this.map.render(0, 0);
+	public void render(Graphics g, int xOffset, int yOffset) {
+		this.map.render(0, 0, xOffset, yOffset, 1000, 1000);
 	}
 }
