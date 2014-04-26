@@ -7,6 +7,8 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.state.transition.EmptyTransition;
+import org.newdawn.slick.state.transition.SelectTransition;
 
 public class Menu extends BasicGameState {
 	
@@ -24,7 +26,7 @@ public class Menu extends BasicGameState {
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame gs, Graphics g) throws SlickException {
-		this.title.draw(50,50);
+		this.title.draw(0,0);
 	}
 
 	@Override
@@ -32,7 +34,7 @@ public class Menu extends BasicGameState {
 		Input input = gc.getInput();
 		
 		if (input.isKeyDown(Input.KEY_ENTER)) {
-			gs.enterState(1);
+			gs.enterState(1, new EmptyTransition(), new SelectTransition());
 		}
 	}
 
