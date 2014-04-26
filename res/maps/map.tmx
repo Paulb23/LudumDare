@@ -58,7 +58,7 @@
  </tileset>
  <layer name="background" width="16" height="16">
   <data encoding="base64" compression="zlib">
-   eJwzZmBgMB7Fo3gUj0gMAG/6MwE=
+   eJwzZmBgMB7mGAYG2h2jeBQPNgwAM48ymw==
   </data>
  </layer>
  <layer name="Map" width="16" height="16">

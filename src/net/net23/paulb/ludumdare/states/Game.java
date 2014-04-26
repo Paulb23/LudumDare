@@ -72,6 +72,14 @@ public class Game extends BasicGameState {
 		
 		if (this.player.getX() > this.level.getMapWidth() ) { this.player.setX(this.level.getMapWidth()); }
 		if (this.player.getY() > this.level.getMapHeight()) { this.player.setY(this.level.getMapHeight());}
+		
+		if (this.player.isDead()) {
+			this.player = new Player( this.level.getPlayerSpawnX(), this.level.getPlayerSpawnY(), 16, 16, 0.1, 0.1, "res/textures/sprites/player.png");
+			
+			gs.enterState(0);
+			
+			this.player.Alive();
+		}
 	}
 
 	@Override

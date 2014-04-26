@@ -16,6 +16,8 @@ public class Level {
 	private boolean blocked[][];
 	private Tile tiles[][];
 	
+	private boolean hole[][];
+	
 	private int playerSpawnX;
 	private int playerSpawnY;
 	
@@ -27,11 +29,22 @@ public class Level {
 		}
 		
 		blocked = new boolean[this.map.getWidth()][this.map.getHeight()];
+		hole = new boolean[this.map.getWidth()][this.map.getHeight()];
 		tiles = new Tile[this.map.getWidth()][this.map.getHeight()];
 		
 		for (int i = 0; i < this.map.getWidth(); i++) {
 			for (int j = 0; j < this.map.getHeight(); j++) {
 				int tileID = this.map.getTileId(i, j, 1);
+				
+				
+				int tileIDground = this.map.getTileId(i, j, 0);
+				
+				if (tileIDground > 1) {
+					hole[i][j] = false;
+				} else {
+					hole[i][j] = true;
+				}
+				
 				
 				String solid = this.map.getTileProperty(tileID, "Solid", "false");
 				
@@ -53,6 +66,10 @@ public class Level {
 	
 	public boolean collision(int x, int y, Entity e) {
 		return blocked[x][y];
+	}
+	
+	public boolean checkHole(int x, int y) {
+		return hole[x][y];
 	}
 	
 	public void render(Graphics g) {

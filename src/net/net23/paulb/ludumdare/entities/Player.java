@@ -27,6 +27,8 @@ public class Player extends Mob {
 	
 	private int directrion;
 	
+	private boolean dead;
+	
 	
 	private boolean canMoveDown, canMoveUp, canMoveRight, canMoveLeft;
 	
@@ -62,6 +64,7 @@ public class Player extends Mob {
 		this.canMoveUp = false;
 		this.canMoveRight = false;
 		this.canMoveDown = false;
+		this.dead = false;
 	}
 	
 	
@@ -108,7 +111,12 @@ public class Player extends Mob {
 		if (level.collision(tileX, tileY,     this)) { canMoveUp = false;}    else {canMoveUp = true;} 
 		if (level.collision(tileX, tileY + 1, this)) { canMoveDown = false;}  else {canMoveDown = true;} 
 		if (level.collision(tileX, tileY, this)) { canMoveLeft = false;}  else {canMoveLeft = true;} 
-		if (level.collision(tileX + 1, tileY, this)) { canMoveRight = false;} else {canMoveRight = true;} 
+		if (level.collision(tileX + 1, tileY, this)) { canMoveRight = false;} else {canMoveRight = true;}
+		
+		
+		if (level.checkHole(tileX, tileY)) {
+			this.dead = true;
+		}
 	}
 	
 	public void move(Input input, int delta) {
@@ -133,6 +141,14 @@ public class Player extends Mob {
 		if (!input.isKeyDown(Input.KEY_W) && !input.isKeyDown(Input.KEY_A) && !input.isKeyDown(Input.KEY_S) && !input.isKeyDown(Input.KEY_D )) {
 			directrion = 0;
 		}
+	}
+	
+	public boolean isDead() {
+		return this.dead;
+	}
+	
+	public void Alive() {
+		this.dead = false;
 	}
 
 }
