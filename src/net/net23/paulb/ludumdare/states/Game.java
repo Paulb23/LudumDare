@@ -21,9 +21,6 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.EmptyTransition;
 import org.newdawn.slick.state.transition.SelectTransition;
 
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.IntArrayData;
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
-
 public class Game extends BasicGameState {
 
 	private int state;
@@ -111,6 +108,13 @@ public class Game extends BasicGameState {
 		if (!paused) {
 			player.checkCollision(this.level);
 			player.update(input, delta);
+			
+			for (Entity i : entities) {
+				if (i != player) {
+					((AI) i).checkCollision(this.level, player);
+					((AI) i).move(delta);
+				}
+			}
 			
 			if (this.player.getX() < 0 ) { this.player.setX(0); }
 			if (this.player.getY() < 0 ) { this.player.setY(0); }

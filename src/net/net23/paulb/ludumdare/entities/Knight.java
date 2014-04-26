@@ -6,4 +6,9 @@ public class Knight extends AI {
 		super(x, y, w, h, xSpeed, ySpeed, health, path);
 	}
 
+	
+	//@Override
+	//public void move(int delta) {
+	
+	//}
 }
