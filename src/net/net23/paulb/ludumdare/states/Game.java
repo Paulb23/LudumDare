@@ -107,6 +107,7 @@ public class Game extends BasicGameState {
 
 		
 		if (paused) {
+			g.translate(-xOffset, -yOffset);
 			g.drawImage(this.pauseScreen, 0, 0);
 		}
 		
