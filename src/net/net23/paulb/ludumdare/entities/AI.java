@@ -130,8 +130,8 @@ public class AI extends Mob {
 		System.out.println(tileDistanceX + " " + tileDistanceY);
 		
 		if (!attacking) {
-			if (distanceX > 10 || distanceX < 160) {
-				if (distanceY > 10 || distanceY < 160) {
+			if (distanceX > -160 && distanceX < 160) {
+				if (distanceY > -160 || distanceY < 160) {
 					   float dx = this.playerX - getX() ;
 					   float dy = this.playerY - getY() ;
 					   

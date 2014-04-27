@@ -33,9 +33,6 @@ public class Game extends BasicGameState {
 	private boolean paused;
 	private Image pauseScreen;
 	
-	private Knight knight;
-	private Knight knight2;
-	
 	private LinkedList<Entity> entities;
 	
 	public Game(int state) {
@@ -56,12 +53,10 @@ public class Game extends BasicGameState {
 		this.entities = new LinkedList<Entity>();
 		
 		this.player = new Player( this.level.getPlayerSpawnX(), this.level.getPlayerSpawnY(), 16, 16, 0.1, 0.1, 100, "res/textures/sprites/player.png");
-		this.knight = new Knight( this.level.getPlayerSpawnX(), this.level.getPlayerSpawnY(), 16, 16, 0.1, 0.1, 100, "res/textures/sprites/knight.png");
-		this.knight2 = new Knight( this.level.getPlayerSpawnX(), this.level.getPlayerSpawnY() - 50, 16, 16, 0.1, 0.1, 100, "res/textures/sprites/knight.png");
 		
 		entities.add(this.player);
-		entities.add(this.knight);
-		entities.add(this.knight2);
+		//entities.add(new Knight( this.level.getPlayerSpawnX(), this.level.getPlayerSpawnY(), 16, 16, 0.1, 0.1, 100, "res/textures/sprites/knight.png"));
+		//entities.add(new Knight( this.level.getPlayerSpawnX(), this.level.getPlayerSpawnY() - 50, 16, 16, 0.1, 0.1, 100, "res/textures/sprites/knight.png"));
 		
 		this.xOffset = 0;
 		this.yOffset = 0;
@@ -72,22 +67,12 @@ public class Game extends BasicGameState {
 	@Override
 	public void render(GameContainer gc, StateBasedGame gs, Graphics g) throws SlickException {
 		g.scale(4, 4);
-		
-		
-		xOffset = -(this.player.getX() - 90);
-		yOffset = -(this.player.getY() - 50);
-		
-		if (xOffset > 0) { xOffset = 0; }
-		if (yOffset > 0) { yOffset = 0; }
-		
-		if (xOffset < -56) { xOffset = -56; }
-		if (yOffset < -106) { yOffset = -106; }
+		sortDepthOrder();
+		setOffset();
 		
 		g.translate(xOffset, yOffset );
 		
 		this.level.render(g);
-		
-		sortDepthOrder();
 		
 		for (Entity q : entities) {
 			q.render(g);
@@ -116,73 +101,20 @@ public class Game extends BasicGameState {
 				}
 			}
 			
-			if (this.player.getX() < 0 ) { this.player.setX(0); }
-			if (this.player.getY() < 0 ) { this.player.setY(0); }
+			playerBoundsCheck();
+			playerAttack();
 			
-			if (this.player.getX() > this.level.getMapWidth() ) { this.player.setX(this.level.getMapWidth()); }
-			if (this.player.getY() > this.level.getMapHeight()) { this.player.setY(this.level.getMapHeight());}
+
+			
+			entityHealthCheck();
 			
 			if (this.player.isDead()) {
 				gs.enterState(0);
 			}
 			
-			int playerDirection = this.player.getDirection();
-			
-			if (playerDirection == 8) {
-				for (Entity i : entities) {
-					if (player.getY() > i.getY()) {
-						int distance = player.getY() - i.getY();
-						
-						if (distance <= 10) {
-							((Mob) i).takeDamage(player.getDamage());;
-						}
-					}
-				}
-			}
-			
-			if (playerDirection == 9) {
-				for (Entity i : entities) {
-					if (player.getX() < i.getX()) {
-						int distance = player.getX() - i.getX();
-						int distanceY = player.getY() - i.getY();
-						
-						if (distance <= 10 && distanceY <= 10) {
-							((Mob) i).takeDamage(player.getDamage()); 
-						}
-					}
-				}
-			}
-			
-			if (playerDirection == 10) {
-				for (Entity i : entities) {
-					if (player.getX() > i.getX()) {
-						int distance = player.getX() - i.getX();
-						int distanceY = player.getY() - i.getY();
-						
-						if (distance <= 10 && distanceY <= 10) {
-							((Mob) i).takeDamage(player.getDamage()); 
-						}
-					}
-				}
-			}
-			
-			if (playerDirection == 11 ) {
-				for (Entity i : entities) {
-					if (player.getY() < i.getY()) {
-						int distance = player.getY() - i.getY();
-						
-						if (distance <= 10) {
-							((Mob) i).takeDamage(player.getDamage());;
-						}
-					}
-				}
-			}
-			
 			if (input.isKeyPressed(Input.KEY_P)) {
 				paused = true;
 			}
-			
-			entityHealthCheck();
 			
 		} else {
 			if (input.isKeyPressed(Input.KEY_P)) {
@@ -216,12 +148,87 @@ public class Game extends BasicGameState {
 		
 	}
 	
+	public void setOffset() {
+
+		xOffset = -(this.player.getX() - 90);
+		yOffset = -(this.player.getY() - 50);
+		
+		if (xOffset > 0) { xOffset = 0; }
+		if (yOffset > 0) { yOffset = 0; }
+		
+		if (xOffset < -56) { xOffset = -56; }
+		if (yOffset < -106) { yOffset = -106; }
+	}
+	
 	public void entityHealthCheck() {
 		for (int i = entities.size() - 1; i >= 0; --i) {
 		    if (((Mob) entities.get(i)).getHealth() < 0) {
 		    	entities.remove(i);
 		    	break;
 		    }
+		}
+	}
+	
+	
+	private void playerBoundsCheck() {
+		if (this.player.getX() < 0 ) { this.player.setX(0); }
+		if (this.player.getY() < 0 ) { this.player.setY(0); }
+		
+		if (this.player.getX() > this.level.getMapWidth() ) { this.player.setX(this.level.getMapWidth()); }
+		if (this.player.getY() > this.level.getMapHeight()) { this.player.setY(this.level.getMapHeight());}
+	}
+	
+	private void playerAttack() {
+		int playerDirection = this.player.getDirection();
+		
+		if (playerDirection == 8) {
+			for (Entity i : entities) {
+				if (player.getY() > i.getY()) {
+					int distance = player.getY() - i.getY();
+					
+					if (distance <= 10) {
+						((Mob) i).takeDamage(player.getDamage());;
+					}
+				}
+			}
+		}
+		
+		if (playerDirection == 9) {
+			for (Entity i : entities) {
+				if (player.getX() < i.getX()) {
+					int distance = player.getX() - i.getX();
+					int distanceY = player.getY() - i.getY();
+					
+					if (distance <= 10 && distanceY <= 10) {
+						((Mob) i).takeDamage(player.getDamage()); 
+					}
+				}
+			}
+		}
+		
+		if (playerDirection == 10) {
+			for (Entity i : entities) {
+				if (player.getX() > i.getX()) {
+					int distance = player.getX() - i.getX();
+					int distanceY = player.getY() - i.getY();
+					
+					if (distance <= 10 && distanceY <= 10) {
+						((Mob) i).takeDamage(player.getDamage()); 
+					}
+				}
+			}
+		}
+		
+		if (playerDirection == 11 ) {
+			for (Entity i : entities) {
+				if (player.getY() < i.getY()) {
+					int distance = player.getY() - i.getY();
+					
+					if (distance <= 10) {
+						((Mob) i).takeDamage(player.getDamage());;
+					}
+				}
+			}
 		}
 	}
 

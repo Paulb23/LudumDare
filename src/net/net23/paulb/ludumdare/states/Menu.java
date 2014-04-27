@@ -1,5 +1,7 @@
 package net.net23.paulb.ludumdare.states;
 
+import net.net23.paulb.ludumdare.audio.Music;
+
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -15,6 +17,7 @@ public class Menu extends BasicGameState {
 	
 	private int state;
 	private Image title;
+	private Music music;
 	
 	public Menu(int state) {
 		this.state = state;
@@ -23,6 +26,12 @@ public class Menu extends BasicGameState {
 	@Override
 	public void init(GameContainer gc, StateBasedGame gs) throws SlickException {
 		this.title = new Image("res/ui/title.png");
+		this.music = new Music("res/audio/music/menumusic.wav");
+	}
+	
+	@Override
+	public void enter(GameContainer container, StateBasedGame game) throws SlickException {
+	
 	}
 
 	@Override
@@ -34,8 +43,13 @@ public class Menu extends BasicGameState {
 	public void update(GameContainer gc, StateBasedGame gs, int delta) throws SlickException {
 		Input input = gc.getInput();
 		
+		if (!music.getIsplaying()) {
+			this.music.playClip((float) -25, true);
+		}
+		
 		if (input.isKeyDown(Input.KEY_ENTER)) {
 			gc.getInput();
+			this.music.stopClip();
 			gs.enterState(1, new EmptyTransition(), new SelectTransition());
 		}
 		
