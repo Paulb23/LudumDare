@@ -163,8 +163,6 @@ public class AI extends Mob {
 		int distanceX = this.playerX - this.getX();
 		int distanceY = this.playerY - this.getY() ;
 		
-		System.out.println(tileDistanceX + " " + tileDistanceY);
-		
 		if (!attacking) {
 			if (distanceX > -100 && distanceX < 100) {
 				if (distanceY > -100 || distanceY < 100) {
@@ -184,6 +182,20 @@ public class AI extends Mob {
 					   
 					   dy *= speed;
 					    
+					   System.out.println(dy);
+					   
+					   if (dy == -1) {
+						   directrion = 1;
+					   } else if (dy == 1) {
+						   directrion = 7;
+					   }
+					   
+					   if (dx == -1) {
+						   directrion =  5;
+					   } else if (dx == 1) {
+						   directrion = 3;
+					   }
+					   
 					   //move the entity with our new direction vector
 					   setX((int)(getX() + dx));
 					   setY((int)(getY() + dy));
@@ -219,12 +231,5 @@ public class AI extends Mob {
 	
 	public float getDamage() {
 		return 0.1f;
-	}
-	
-	private boolean canAttack(int distanceX, int distanceY) {
-		System.out.println("X: " + distanceX + " Y: " + distanceY);
-		
-		return (distanceX <= 15 && distanceY <= 15 && distanceX > -15  && distanceY > -15) ? true : false;
-
 	}
 }

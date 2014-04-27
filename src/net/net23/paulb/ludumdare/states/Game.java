@@ -101,7 +101,6 @@ public class Game extends BasicGameState {
 					
 					if (((AI) i).getAttacking()) {
 						player.takeDamage(((AI) i).getDamage());
-						System.out.println(player.getHealth());
 					}
 				}
 			}
