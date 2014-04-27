@@ -40,7 +40,7 @@ public class Game extends BasicGameState {
 	
 	private LinkedList<Entity> entities;
 	
-	private int spawnDelay = 10000;
+	private int spawnDelay = 8000;
 	private int timer;
 	private int kills;
 	private int maxEntities;
@@ -64,6 +64,7 @@ public class Game extends BasicGameState {
 		this.gameOverScreen.setFilter(Image.FILTER_NEAREST);
 		
 		this.healup = new Music("res/audio/sfx/heal.wav");
+
 
 		
 		gameOverfont = new UnicodeFont("res/fonts/Extrude.ttf", 24, false, false);
@@ -92,7 +93,7 @@ public class Game extends BasicGameState {
 		
 		this.paused = false;
 		this.kills = 0;
-		this.maxEntities = 10;
+		this.maxEntities = 100;
 		this.amountSpawned = 0;
 		this.timer = 0;
 	}
@@ -125,7 +126,7 @@ public class Game extends BasicGameState {
 			g.scale(0.3F, 0.3F);
 			g.drawString("kills: " + kills, 10, 30);
 		} else {
-			 g.setFont(gameOverfont);
+			g.setFont(gameOverfont);
 			g.drawImage(gameOverScreen, 0, 0);
 			
 			g.drawString("Kills: " + kills + '\n' +"Health Increased: " + player.getMaxHealth(), 250, 360);
@@ -156,7 +157,7 @@ public class Game extends BasicGameState {
 			playerAttack();
 			
 
-			
+
 			entityHealthCheck();
 			
 			timer += delta;
@@ -167,6 +168,10 @@ public class Game extends BasicGameState {
 				
 				if (amountSpawned % 5 == 0) {
 					health += amountSpawned * 2; 
+				}
+				
+				if (amountSpawned % 10 == 0 && spawnDelay > 4000) {
+					spawnDelay -= 100;
 				}
 				createEntity(health);
 			}
@@ -311,13 +316,9 @@ public class Game extends BasicGameState {
 			int x = (int) Math.floor((Math.random() * (level.getMapWidth() / level.TILESIZE)));
 			int y = (int) Math.floor((Math.random() * (level.getMapWidth() / level.TILESIZE)));
 			
-			while (true) {
+			while (level.getAiSpawn(x, y)) {
 				x = (int) Math.floor((Math.random() * (level.getMapWidth() / level.TILESIZE)));
 				y = (int) Math.floor((Math.random() * (level.getMapWidth() / level.TILESIZE)));
-				
-				if (level.getAiSpawn(x, y)) {
-					break;
-				}
 			}
 			
 	
