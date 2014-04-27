@@ -13,21 +13,18 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.EmptyTransition;
 import org.newdawn.slick.state.transition.SelectTransition;
 
-public class Menu extends BasicGameState {
+public class Controls extends BasicGameState {
 	
-	private int state;
 	private Image title;
-	private Music music;
+	private int state;
 	
-	public Menu(int state) {
+	public Controls(int state) {
 		this.state = state;
 	}
 	
 	@Override
 	public void init(GameContainer gc, StateBasedGame gs) throws SlickException {
-		this.title = new Image("res/ui/title.png");
-		this.music = new Music("res/audio/music/menumusic.wav");
-		this.music.playClip(-30, true);
+		this.title = new Image("res/ui/Controls.png");
 	}
 	
 	@Override
@@ -44,20 +41,9 @@ public class Menu extends BasicGameState {
 	public void update(GameContainer gc, StateBasedGame gs, int delta) throws SlickException {
 		Input input = gc.getInput();
 		
-		if (input.isKeyDown(Input.KEY_ENTER)) {
-			gc.getInput();
-			gs.enterState(1, new EmptyTransition(), new SelectTransition());
-		}
-		
-		if (input.isKeyDown(Input.KEY_C)) {
-			gc.getInput();
-			gs.enterState(2, new EmptyTransition(), new SelectTransition());
-		}
-		
 		if (input.isKeyDown(Input.KEY_ESCAPE)) {
-			Display.destroy();
-			gc.exit();
-			System.exit(0);
+			gc.getInput();
+			gs.enterState(0, new EmptyTransition(), new SelectTransition());
 		}
 	}
 

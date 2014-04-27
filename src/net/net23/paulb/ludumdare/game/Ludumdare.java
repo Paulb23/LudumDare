@@ -1,5 +1,6 @@
 package net.net23.paulb.ludumdare.game;
 
+import net.net23.paulb.ludumdare.states.Controls;
 import net.net23.paulb.ludumdare.states.Game;
 import net.net23.paulb.ludumdare.states.Menu;
 
@@ -12,6 +13,7 @@ public class Ludumdare extends StateBasedGame {
 	
 	public static int MENUSTATE = 0;
 	public static int GAMESTATE = 1;
+	public static int CONTROLSTATE = 2;
 	
 	public static boolean SHOWFPS = true;
 	
@@ -30,6 +32,7 @@ public class Ludumdare extends StateBasedGame {
 	public void initStatesList(GameContainer arg0) throws SlickException {
 		this.addState(new Menu(MENUSTATE));
 		this.addState(new Game(GAMESTATE));
+		this.addState(new Controls(CONTROLSTATE));
 		
 		this.enterState(MENUSTATE);
 	}
