@@ -1,5 +1,6 @@
 package net.net23.paulb.ludumdare.states;
 
+import java.awt.Font;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -11,11 +12,15 @@ import net.net23.paulb.ludumdare.entities.Mob;
 import net.net23.paulb.ludumdare.entities.Player;
 import net.net23.paulb.ludumdare.maps.Level;
 
+import org.lwjgl.util.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.TrueTypeFont;
+import org.newdawn.slick.UnicodeFont;
+import org.newdawn.slick.font.effects.ColorEffect;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -33,6 +38,7 @@ public class Game extends BasicGameState {
 
 	private boolean paused;
 	private Image pauseScreen;
+	private Image gameOverScreen;
 	
 	private LinkedList<Entity> entities;
 	
@@ -42,6 +48,8 @@ public class Game extends BasicGameState {
 	private int maxEntities;
 	private int amountSpawned;
 	
+	private UnicodeFont gameOverfont;
+	
 	public Game(int state) {
 		this.state = state;
 	}
@@ -50,14 +58,26 @@ public class Game extends BasicGameState {
 	public void init(GameContainer gc, StateBasedGame gs) throws SlickException {
 		this.pauseScreen = new Image("res/ui/paused.png");
 		this.pauseScreen.setFilter(Image.FILTER_NEAREST);
+		
+		this.gameOverScreen = new Image("res/ui/gameOver.png");
+		this.gameOverScreen.setFilter(Image.FILTER_NEAREST);
+		
+		
+		gameOverfont = new UnicodeFont("res/fonts/Extrude.ttf", 24, false, false);
+		gameOverfont.addAsciiGlyphs();
+		gameOverfont.getEffects().add(new ColorEffect());
+		gameOverfont.loadGlyphs();
 	}
 	
 	
 	@Override
 	public void enter(GameContainer container, StateBasedGame game) throws SlickException {
 		this.level = new Level(12368216);
+
 		
 		this.entities = new LinkedList<Entity>();
+		
+		this.entities.clear();
 		
 		this.player = new Player( this.level.getPlayerSpawnX(), this.level.getPlayerSpawnY(), 16, 16, 0.1, 0.1, 100, "res/textures/sprites/player.png");
 		
@@ -71,41 +91,50 @@ public class Game extends BasicGameState {
 		this.kills = 0;
 		this.maxEntities = 10;
 		this.amountSpawned = 0;
+		this.timer = 0;
 	}
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame gs, Graphics g) throws SlickException {
-		g.scale(4, 4);
-		sortDepthOrder();
-		setOffset();
 		
-		g.translate(xOffset, yOffset );
+		if (!player.isDead()) {
+			g.scale(4, 4);
+			sortDepthOrder();
+			setOffset();
+			
+			g.translate(xOffset, yOffset );
+			
+			this.level.render(g);
+			
+			for (Entity q : entities) {
+				q.render(g);
 		
-		this.level.render(g);
-		
-		for (Entity q : entities) {
-			q.render(g);
-	
-			g.draw(new Rectangle(q.getX() - 5, q.getY()  - 5, 20, 2));
-			g.fillRect(q.getX() - 5, q.getY()  - 5, (float) ((q.getHealth() * 0.20)), 2);
-		}
-		
-		if (paused) {
+				g.draw(new Rectangle(q.getX() - 5, q.getY()  - 5, 20, 2));
+				g.fillRect(q.getX() - 5, q.getY()  - 5, (float) ((q.getHealth() * 0.20)), 2);
+			}
+			
+			if (paused) {
+				g.translate(-xOffset, -yOffset);
+				g.drawImage(this.pauseScreen, 0, 0);
+			}
+			
 			g.translate(-xOffset, -yOffset);
-			g.drawImage(this.pauseScreen, 0, 0);
+			g.scale(0.3F, 0.3F);
+			g.drawString("kills: " + kills, 10, 30);
+		} else {
+			 g.setFont(gameOverfont);
+			g.drawImage(gameOverScreen, 0, 0);
+			
+			g.drawString("Kills: " + kills + '\n' +"Health Increased: " + player.getMaxHealth(), 250, 360);
 		}
-		
-		g.translate(-xOffset, -yOffset);
-		g.scale(0.3F, 0.3F);
-		g.resetFont();
-		g.drawString("kills: " + kills, 10, 30);
 	}
 
 	@Override
 	public void update(GameContainer gc, StateBasedGame gs, int delta) throws SlickException {
 		Input input = gc.getInput();
+
 		
-		if (!paused) {
+		if (!paused && !player.isDead()) {
 			player.checkCollision(this.level);
 			player.update(input, delta);
 			
@@ -133,20 +162,17 @@ public class Game extends BasicGameState {
 				
 				int health = 100;
 				
-				if (amountSpawned % 10 == 0) {
+				if (amountSpawned % 5 == 0) {
 					health += amountSpawned * 2; 
 				}
 				createEntity(health);
 			}
 			
-			
-			if (this.player.isDead()) {
-				gs.enterState(0);
-			}
-			
 			if (input.isKeyPressed(Input.KEY_P) || !gc.hasFocus()) {
 				paused = true;
 			}
+			
+		} else if (player.isDead())  {
 			
 		} else {
 			if (input.isKeyPressed(Input.KEY_P)) {
@@ -195,20 +221,20 @@ public class Game extends BasicGameState {
 	public void entityHealthCheck() {
 		for (int i = entities.size() - 1; i >= 0; --i) {
 		    if (((Mob) entities.get(i)).getHealth() < 0) {
-		    	entities.remove(i);
-		    	kills++;
-		    	
-		    	int heal = (int) (Math.floor(Math.random() * 100));
-		    	
-		    	System.out.println(heal);
-		    	
-		    	if (heal < 26) {
-		    		this.player.heal();
+		    	if (entities.get(i) != player) {
+		    		entities.remove(i);
+		    		kills++;
+		    		
+			    	int heal = (int) (Math.floor(Math.random() * 100));
+			    	
+			    	if (heal < 26) {
+			    		this.player.heal();
+			    	}
+			    	
+			    	break;
+		    	} else { 
+		    		player.setHealth(-10); 
 		    	}
-		    	
-		    	System.out.println(this.player.getMaxHealth());
-		    	
-		    	break;
 		    }
 		}
 	} 

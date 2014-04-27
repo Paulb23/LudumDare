@@ -31,7 +31,7 @@ public class Ludumdare extends StateBasedGame {
 		this.addState(new Menu(MENUSTATE));
 		this.addState(new Game(GAMESTATE));
 		
-		this.enterState(GAMESTATE);
+		this.enterState(MENUSTATE);
 	}
 
 	/**

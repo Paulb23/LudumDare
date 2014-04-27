@@ -142,11 +142,11 @@ public class Player extends Mob {
 	
 	
 	public void update(Input input, int delta) {
-		this.move(input, delta);
-		
 		if (this.getHealth() <= 0) {
 			this.dead = true;
 		}
+		
+		this.move(input, delta);
 	}
 	
 	public void checkCollision(Level level) {
