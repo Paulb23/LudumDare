@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="27" height="27" tilewidth="16" tileheight="16">
+ <tileset firstgid="1" name="tiles" tilewidth="16" tileheight="16">
+  <properties>
+   <property name="Solid" value="true"/>
+  </properties>
+  <image source="../textures/tiles/tiles.png" trans="ff00ff" width="176" height="32"/>
+  <tile id="0">
+   <properties>
+    <property name="Solid" value="true"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="Solid" value="true"/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="Solid" value="true"/>
+   </properties>
+  </tile>
+  <tile id="4">
+   <properties>
+    <property name="Solid" value="true"/>
+   </properties>
+  </tile>
+  <tile id="5">
+   <properties>
+    <property name="Solid" value="true"/>
+   </properties>
+  </tile>
+  <tile id="6">
+   <properties>
+    <property name="Solid" value="true"/>
+   </properties>
+  </tile>
+  <tile id="7">
+   <properties>
+    <property name="Solid" value="true"/>
+   </properties>
+  </tile>
+  <tile id="8">
+   <properties>
+    <property name="Solid" value="true"/>
+   </properties>
+  </tile>
+  <tile id="9">
+   <properties>
+    <property name="Solid" value="true"/>
+   </properties>
+  </tile>
+  <tile id="10">
+   <properties>
+    <property name="Solid" value="false"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="background" width="27" height="27">
+  <data encoding="base64" compression="zlib">
+   eJztwzENAAAMA6AKqH+9e+pgLyQ0SVVVdfk7iuQeYQ==
+  </data>
+ </layer>
+ <layer name="Map" width="27" height="27">
+  <data encoding="base64" compression="zlib">
+   eJztVWsLgzAMjHvJLNX//2+3gYHzvLRxwj7toFDN+9FkNLNr8jxO0Kf3GW2Lup5ie9zgjvSZ6FXIoq1llUG+CrSeLvbFZdwPFVdWl6MIusoJ2mL9C9xd9m77Opht66VQyJby5Sgm+q5Ew3opHiUb+TWRHqZxvYrg78XsPnBcKBv1RsTPYJ/QFvdwqzeq+Kf4Mj6wrW+BMascZm2pvndEs0GhBrYyOYqQjavVa2hf8ak+ZD4V12LxG4mAfR0h0xuDHds5CN8XPqOeQsZIPlvDTFytt+ryM/1HnM0h7p0WeL5ivfntjcJP9geB8q0ZpfT0eqMX1ze2Pj5eAh7Mk8ei3pyavX7vxeW9emSPtvbX8MPzx3m8ABbrB24=
+  </data>
+ </layer>
+</map>

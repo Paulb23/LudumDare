@@ -22,7 +22,7 @@ public class Level {
 	
 	public Level(int seed) {
 		try {
-			this.map = new TiledMap("res/maps/map.tmx");
+			this.map = new TiledMap("res/maps/map2.tmx");
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}

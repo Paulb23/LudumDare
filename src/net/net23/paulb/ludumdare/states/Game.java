@@ -84,6 +84,7 @@ public class Game extends BasicGameState {
 		gameOverfont.addAsciiGlyphs();
 		gameOverfont.getEffects().add(new ColorEffect());
 		gameOverfont.loadGlyphs();
+		maxEntities = 1000;
 	}
 	
 	
@@ -118,14 +119,17 @@ public class Game extends BasicGameState {
 		this.player = new Player( this.level.getPlayerSpawnX(), this.level.getPlayerSpawnY(), 16, 16, 0.1, 0.1, 100, "res/textures/sprites/player.png");
 		
 		entities.add(this.player);
-		createEntity(100);
+		
+		createEntity(100); createEntity(100); createEntity(100); createEntity(100); createEntity(100); createEntity(100); createEntity(100); createEntity(100);	createEntity(100); createEntity(100);
+		
+		System.out.print(entities.size() - amountOfKeys);
 		
 		this.xOffset = 0;
 		this.yOffset = 0;
 		
 		this.paused = false;
 		this.kills = 0;
-		this.maxEntities = 100;
+		this.maxEntities = 1000;
 		this.amountSpawned = 0;
 		this.timer = 0;
 		this.keysCollected = 0;
@@ -161,6 +165,7 @@ public class Game extends BasicGameState {
 			g.translate(-xOffset, -yOffset);
 			g.scale(0.3F, 0.3F);
 			g.drawString("kills: " + kills, 10, 30);
+			g.drawString("Keys left:: " + keys.size(), 10, 60);
 		} else if (gameWin) {
 			g.setFont(gameOverfont);
 			g.drawImage(gameWinScreen, 0, 0);
@@ -280,8 +285,12 @@ public class Game extends BasicGameState {
 		if (xOffset > 0) { xOffset = 0; }
 		if (yOffset > 0) { yOffset = 0; }
 		
-		if (xOffset < -56) { xOffset = -56; }
-		if (yOffset < -106) { yOffset = -106; }
+		//if (xOffset < -56) { xOffset = -56; }
+		//if (yOffset < -106) { yOffset = -106; }
+		
+		if (xOffset < -232){ xOffset = -232;}
+		if (yOffset < -234){ yOffset = -234;}
+
 	}
 	
 	public void entityHealthCheck() {
@@ -291,7 +300,7 @@ public class Game extends BasicGameState {
 			    	if (entities.get(i) != player) {
 			    		entities.remove(i);
 			    		kills++;
-			    		
+			    		createEntity(100);
 				    	int heal = (int) (Math.floor(Math.random() * 100));
 				    	
 				    	if (heal < 26) {
@@ -322,11 +331,13 @@ public class Game extends BasicGameState {
 		
 		if (playerDirection == 8) {
 			for (Entity i : entities) {
-				if (player.getY() > i.getY()) {
-					int distance = player.getY() - i.getY();
-					
-					if (distance <= 16) {
-						((Mob) i).takeDamage(player.getDamage());;
+				if (!(i instanceof Key)) {
+					if (player.getY() > i.getY()) {
+						int distance = player.getY() - i.getY();
+						
+						if (distance <= 16) {
+							((Mob) i).takeDamage(player.getDamage());;
+						}
 					}
 				}
 			}
@@ -334,12 +345,14 @@ public class Game extends BasicGameState {
 		
 		if (playerDirection == 9) {
 			for (Entity i : entities) {
-				if (player.getX() < i.getX()) {
-					int distance = player.getX() - i.getX();
-					int distanceY = player.getY() - i.getY();
-					
-					if (distance <= 16 && distanceY <= 16) {
-						((Mob) i).takeDamage(player.getDamage()); 
+				if (!(i instanceof Key)) {
+					if (player.getX() < i.getX()) {
+						int distance = player.getX() - i.getX();
+						int distanceY = player.getY() - i.getY();
+						
+						if (distance <= 16 && distanceY <= 16) {
+							((Mob) i).takeDamage(player.getDamage()); 
+						}
 					}
 				}
 			}
@@ -347,12 +360,14 @@ public class Game extends BasicGameState {
 		
 		if (playerDirection == 10) {
 			for (Entity i : entities) {
-				if (player.getX() > i.getX()) {
-					int distance = player.getX() - i.getX();
-					int distanceY = player.getY() - i.getY();
-					
-					if (distance <= 16 && distanceY <= 16) {
-						((Mob) i).takeDamage(player.getDamage()); 
+				if (!(i instanceof Key)) {
+					if (player.getX() > i.getX()) {
+						int distance = player.getX() - i.getX();
+						int distanceY = player.getY() - i.getY();
+						
+						if (distance <= 16 && distanceY <= 16) {
+							((Mob) i).takeDamage(player.getDamage()); 
+						}
 					}
 				}
 			}
@@ -360,11 +375,13 @@ public class Game extends BasicGameState {
 		
 		if (playerDirection == 11 ) {
 			for (Entity i : entities) {
-				if (player.getY() < i.getY()) {
-					int distance = player.getY() - i.getY();
-					
-					if (distance <= 16) {
-						((Mob) i).takeDamage(player.getDamage());;
+				if (!(i instanceof Key)) {
+					if (player.getY() < i.getY()) {
+						int distance = player.getY() - i.getY();
+						
+						if (distance <= 16) {
+							((Mob) i).takeDamage(player.getDamage());;
+						}
 					}
 				}
 			}
@@ -373,6 +390,7 @@ public class Game extends BasicGameState {
 	
 	private void createEntity(int health) {
 		if ( (this.entities.size() - amountOfKeys) < maxEntities) {
+			
 			int x = (int) Math.floor((Math.random() * (level.getMapWidth() / level.TILESIZE)));
 			int y = (int) Math.floor((Math.random() * (level.getMapWidth() / level.TILESIZE)));
 			
