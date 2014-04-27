@@ -30,12 +30,9 @@ public class AI extends Mob {
 	
 	private int directrion;
 	
-	private boolean dead, walkedleft, walkedright;
-	
 	private int beforeAttackdir, playerX, playerY;
 	
-	private boolean canMoveDown, canMoveUp, canMoveRight, canMoveLeft, attacking;
-	private int distanceY;
+	private boolean  attacking;
 	
 	public AI(int x, int y, int w, int h, double xSpeed, double ySpeed, double health, String path) {
 		super(x, y, w, h, xSpeed, ySpeed, health);
@@ -75,28 +72,13 @@ public class AI extends Mob {
 		}
 		
 		this.directrion = 0;
-		this.canMoveLeft = false;
-		this.canMoveUp = false;
-		this.canMoveRight = false;
-		this.canMoveDown = false;
-		this.dead = false;
 		this.attacking = false;
 		this.beforeAttackdir = 0;
-		walkedleft = true;
-		walkedright = false;
 	} 
 	
 	public void checkCollision(Level level, Player player) {
-		int tileX = this.getX() / level.TILESIZE;
-		int tileY = this.getY() / level.TILESIZE;
-		
 		playerY = player.getY();
 		playerX = player.getX();
-		
-		if (level.collision(tileX, tileY     ) ) { canMoveUp = false;}    else {canMoveUp = true;} 
-		if (level.collision(tileX, tileY + 1 ) ) { canMoveDown = false;}  else {canMoveDown = true;} 
-		if (level.collision(tileX, tileY	 ) ) { canMoveLeft = false;  walkedright = false; walkedleft = true;}  else {canMoveLeft = true;} 
-		if (level.collision(tileX + 1, tileY ) ) { canMoveRight = false; walkedright = true; walkedleft = false; } else {canMoveRight = true;} 
 	}
 
 	public void render(Graphics g) {
@@ -152,13 +134,10 @@ public class AI extends Mob {
 	
 	public void move(int delta) {
 		int tileX = this.getX() / 16;
-		int tileY = this.getY() / 16;
 		
 		int playerTileX = this.playerX / 16;
-		int playerTileY = this.playerY / 16;
 		
 		int tileDistanceX = tileX - playerTileX;
-		int tileDistanceY = tileY - playerTileY;
 		
 		int distanceX = this.playerX - this.getX();
 		int distanceY = this.playerY - this.getY() ;

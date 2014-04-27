@@ -11,17 +11,13 @@ import net.net23.paulb.ludumdare.entities.Mob;
 import net.net23.paulb.ludumdare.entities.Player;
 import net.net23.paulb.ludumdare.maps.Level;
 
-import org.newdawn.slick.Color;
+import org.lwjgl.Sys;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
-import org.newdawn.slick.ShapeFill;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.fills.GradientFill;
 import org.newdawn.slick.geom.Rectangle;
-import org.newdawn.slick.geom.Shape;
-import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.EmptyTransition;
@@ -40,6 +36,11 @@ public class Game extends BasicGameState {
 	private Image pauseScreen;
 	
 	private LinkedList<Entity> entities;
+	
+	private int spawnDelay = 10000;
+	private int timer;
+	private int kills;
+	private int maxEntities;
 	
 	public Game(int state) {
 		this.state = state;
@@ -61,13 +62,14 @@ public class Game extends BasicGameState {
 		this.player = new Player( this.level.getPlayerSpawnX(), this.level.getPlayerSpawnY(), 16, 16, 0.1, 0.1, 100, "res/textures/sprites/player.png");
 		
 		entities.add(this.player);
-		//entities.add(new Knight( this.level.getPlayerSpawnX(), this.level.getPlayerSpawnY(), 16, 16, 0.1, 0.1, 100, "res/textures/sprites/knight.png"));
-		entities.add(new Knight( this.level.getPlayerSpawnX(), this.level.getPlayerSpawnY() - 50, 16, 16, 0.1, 0.1, 100, "res/textures/sprites/knight.png"));
+		createEntity();
 		
 		this.xOffset = 0;
 		this.yOffset = 0;
 		
 		this.paused = false;
+		this.kills = 0;
+		this.maxEntities = 10;
 	}
 
 	@Override
@@ -82,19 +84,20 @@ public class Game extends BasicGameState {
 		
 		for (Entity q : entities) {
 			q.render(g);
-			
-			ShapeFill healthFill = new GradientFill(0, -5 / 2, Color.red, 20, -5 - 1, Color.orange, true);
-			
+	
 			g.draw(new Rectangle(q.getX() - 5, q.getY()  - 5, 20, 2));
 			g.fillRect(q.getX() - 5, q.getY()  - 5, (float) ((q.getHealth() * 0.20)), 2);
 		}
-
 		
 		if (paused) {
 			g.translate(-xOffset, -yOffset);
 			g.drawImage(this.pauseScreen, 0, 0);
 		}
 		
+		g.translate(-xOffset, -yOffset);
+		g.scale(0.3F, 0.3F);
+		g.resetFont();
+		g.drawString("kills: " + kills, 10, 30);
 	}
 
 	@Override
@@ -122,6 +125,14 @@ public class Game extends BasicGameState {
 
 			
 			entityHealthCheck();
+			
+			timer += delta;
+			if (timer >= spawnDelay) {
+				timer = 0;
+				
+				createEntity();
+			}
+			
 			
 			if (this.player.isDead()) {
 				gs.enterState(0);
@@ -179,11 +190,11 @@ public class Game extends BasicGameState {
 		for (int i = entities.size() - 1; i >= 0; --i) {
 		    if (((Mob) entities.get(i)).getHealth() < 0) {
 		    	entities.remove(i);
+		    	kills++;
 		    	break;
 		    }
 		}
-	}
-	
+	} 
 	
 	private void playerBoundsCheck() {
 		if (this.player.getX() < 0 ) { this.player.setX(0); }
@@ -244,6 +255,25 @@ public class Game extends BasicGameState {
 					}
 				}
 			}
+		}
+	}
+	
+	private void createEntity() {
+		if ( this.entities.size() < maxEntities) {
+			int x = (int) Math.floor((Math.random() * (level.getMapWidth() / level.TILESIZE)));
+			int y = (int) Math.floor((Math.random() * (level.getMapWidth() / level.TILESIZE)));
+			
+			while (true) {
+				x = (int) Math.floor((Math.random() * (level.getMapWidth() / level.TILESIZE)));
+				y = (int) Math.floor((Math.random() * (level.getMapWidth() / level.TILESIZE)));
+				
+				if (level.getAiSpawn(x, y)) {
+					break;
+				}
+			}
+			
+	
+			entities.add(new Knight( x * level.TILESIZE, y * level.TILESIZE, 16, 16, 0.1, 0.1, 100, "res/textures/sprites/knight.png"));
 		}
 	}
 

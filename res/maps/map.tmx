@@ -4,7 +4,7 @@
   <properties>
    <property name="Solid" value="true"/>
   </properties>
-  <image source="../textures/tiles/tiles.png" trans="ff00ff" width="800" height="600"/>
+  <image source="../textures/tiles/tiles.png" trans="ff00ff" width="176" height="32"/>
   <tile id="0">
    <properties>
     <property name="Solid" value="true"/>
@@ -58,12 +58,12 @@
  </tileset>
  <layer name="background" width="16" height="16">
   <data encoding="base64" compression="zlib">
-   eJwzZmBgMB7Fo3gUj0gMAG/6MwE=
+   eJzjYWBg4BnFo3gUj0gMAB1oDAE=
   </data>
  </layer>
  <layer name="Map" width="16" height="16">
   <data encoding="base64" compression="zlib">
-   eJytkdsOgCAMQ4eooP7//+oSmiwE3QWb9Am6jkMiotR8PM6Kd3G/dyFd28cMS561TuZHO/Dbq5K7BjPArHbnFvE7rDtLna3Lkl9eer3MpCQ/bx6MMCPSD0X5YQ9wKOT/O/TPcPwzH/UNX5UBeA==
+   eJylU9EOgCAIxLK0Wv//u8UGGzNAw9vuRTw4zpkAIBGPl2uHu7jfskAfm9ND0y/KWZ6Yb3nA3SvVb0N3iRr34Mwq1TVY/bLj2dIgTprl6T3I/CJ6mR/qPa8tOEPuMTI/kt+ID86hwPftRnaazTGqZ2/WP/jDBzncAe0=
   </data>
  </layer>
 </map>

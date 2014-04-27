@@ -15,6 +15,8 @@ public class Level {
 	private boolean blocked[][];
 	private Tile tiles[][];
 	
+	private boolean aiSpawn[][];
+	
 	private int playerSpawnX;
 	private int playerSpawnY;
 	
@@ -27,6 +29,7 @@ public class Level {
 		
 		blocked = new boolean[this.map.getWidth()][this.map.getHeight()];
 		tiles = new Tile[this.map.getWidth()][this.map.getHeight()];
+		aiSpawn = new boolean[this.map.getWidth()][this.map.getHeight()];
 		
 		for (int i = 0; i < this.map.getWidth(); i++) {
 			for (int j = 0; j < this.map.getHeight(); j++) {
@@ -37,6 +40,12 @@ public class Level {
 				if (tileID == 2) {
 					playerSpawnX = i * TILESIZE;
 					playerSpawnY = j * TILESIZE;
+				}
+				
+				if (tileID == 13) {
+					aiSpawn[i][j] = true;
+				} else {
+					aiSpawn[i][j] = false;
 				}
 				
 				if (solid.equals("true")) {
@@ -57,6 +66,8 @@ public class Level {
 	public void render(Graphics g) {
 		this.map.render(0, 0);
 	}
+	
+	public boolean getAiSpawn(int x, int y) {return this.aiSpawn[x][y];}
 
 	public int getPlayerSpawnX() { return playerSpawnX; }
 	public int getPlayerSpawnY() { return playerSpawnY; }

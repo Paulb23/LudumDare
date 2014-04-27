@@ -36,8 +36,6 @@ public class Player extends Mob {
 	
 	private int beforeAttackdir;
 	
-	private int equipedWeapon;
-	
 	private boolean canMoveDown, canMoveUp, canMoveRight, canMoveLeft, attacking;
 	
 	public Player(int x, int y, int w, int h, double xSpeed, double ySpeed, double health, String path) {
@@ -85,7 +83,6 @@ public class Player extends Mob {
 		this.dead = false;
 		this.attacking = false;
 		this.beforeAttackdir = 0;
-		this.equipedWeapon = 0;
 	}
 	
 	
@@ -162,14 +159,6 @@ public class Player extends Mob {
 	}
 	
 	public void move(Input input, int delta) {
-		
-		if (input.isKeyPressed(Input.KEY_1)) {
-			equipedWeapon = 0;
-		} else if (input.isKeyPressed(Input.KEY_2)) {
-			equipedWeapon = 1;
-		} else if (input.isKeyPressed(Input.KEY_3)) {
-			equipedWeapon = 2;
-		}
 		
 		if (input.isKeyPressed(Input.KEY_UP) && !attacking) { 
 			beforeAttackdir = 0;
