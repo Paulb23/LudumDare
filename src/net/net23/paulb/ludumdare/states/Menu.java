@@ -44,17 +44,17 @@ public class Menu extends BasicGameState {
 	public void update(GameContainer gc, StateBasedGame gs, int delta) throws SlickException {
 		Input input = gc.getInput();
 		
-		if (input.isKeyDown(Input.KEY_ENTER)) {
+		if (input.isKeyPressed(Input.KEY_ENTER)) {
 			gc.getInput();
 			gs.enterState(1, new EmptyTransition(), new SelectTransition());
 		}
 		
-		if (input.isKeyDown(Input.KEY_C)) {
+		if (input.isKeyPressed(Input.KEY_C)) {
 			gc.getInput();
 			gs.enterState(2, new EmptyTransition(), new SelectTransition());
 		}
 		
-		if (input.isKeyDown(Input.KEY_ESCAPE)) {
+		if (input.isKeyPressed(Input.KEY_ESCAPE)) {
 			Display.destroy();
 			gc.exit();
 			System.exit(0);

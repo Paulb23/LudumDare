@@ -41,8 +41,7 @@ public class Controls extends BasicGameState {
 	public void update(GameContainer gc, StateBasedGame gs, int delta) throws SlickException {
 		Input input = gc.getInput();
 		
-		if (input.isKeyDown(Input.KEY_ESCAPE)) {
-			gc.getInput();
+		if (input.isKeyPressed(Input.KEY_ESCAPE)) {
 			gs.enterState(0, new EmptyTransition(), new SelectTransition());
 		}
 	}
