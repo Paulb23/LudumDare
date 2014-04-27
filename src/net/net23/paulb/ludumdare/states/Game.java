@@ -1,6 +1,5 @@
 package net.net23.paulb.ludumdare.states;
 
-import java.awt.Font;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -13,13 +12,11 @@ import net.net23.paulb.ludumdare.entities.Mob;
 import net.net23.paulb.ludumdare.entities.Player;
 import net.net23.paulb.ludumdare.maps.Level;
 
-import org.lwjgl.util.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
 import org.newdawn.slick.geom.Rectangle;
@@ -57,6 +54,7 @@ public class Game extends BasicGameState {
 		this.state = state;
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public void init(GameContainer gc, StateBasedGame gs) throws SlickException {
 		this.pauseScreen = new Image("res/ui/paused.png");
@@ -66,6 +64,7 @@ public class Game extends BasicGameState {
 		this.gameOverScreen.setFilter(Image.FILTER_NEAREST);
 		
 		this.healup = new Music("res/audio/sfx/heal.wav");
+
 		
 		gameOverfont = new UnicodeFont("res/fonts/Extrude.ttf", 24, false, false);
 		gameOverfont.addAsciiGlyphs();
@@ -113,8 +112,8 @@ public class Game extends BasicGameState {
 			for (Entity q : entities) {
 				q.render(g);
 		
-				g.draw(new Rectangle(q.getX() - 5, q.getY()  - 5, 20, 2));
-				g.fillRect(q.getX() - 5, q.getY()  - 5, (float) ((q.getHealth() * 0.20)), 2);
+				g.draw(new Rectangle(q.getX() - 3, q.getY()  - 5, 20, 2));
+				g.fillRect(q.getX() - 3, q.getY()  - 5, (float) ((q.getHealth() * 0.20)), 2);
 			}
 			
 			if (paused) {
