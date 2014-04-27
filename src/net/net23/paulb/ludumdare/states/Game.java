@@ -191,7 +191,7 @@ public class Game extends BasicGameState {
 				if (player.getY() > i.getY()) {
 					int distance = player.getY() - i.getY();
 					
-					if (distance <= 10) {
+					if (distance <= 16) {
 						((Mob) i).takeDamage(player.getDamage());;
 					}
 				}
@@ -204,7 +204,7 @@ public class Game extends BasicGameState {
 					int distance = player.getX() - i.getX();
 					int distanceY = player.getY() - i.getY();
 					
-					if (distance <= 10 && distanceY <= 10) {
+					if (distance <= 16 && distanceY <= 16) {
 						((Mob) i).takeDamage(player.getDamage()); 
 					}
 				}
@@ -217,7 +217,7 @@ public class Game extends BasicGameState {
 					int distance = player.getX() - i.getX();
 					int distanceY = player.getY() - i.getY();
 					
-					if (distance <= 10 && distanceY <= 10) {
+					if (distance <= 16 && distanceY <= 16) {
 						((Mob) i).takeDamage(player.getDamage()); 
 					}
 				}
@@ -229,7 +229,7 @@ public class Game extends BasicGameState {
 				if (player.getY() < i.getY()) {
 					int distance = player.getY() - i.getY();
 					
-					if (distance <= 10) {
+					if (distance <= 16) {
 						((Mob) i).takeDamage(player.getDamage());;
 					}
 				}

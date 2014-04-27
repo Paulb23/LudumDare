@@ -52,7 +52,7 @@
   </tile>
   <tile id="10">
    <properties>
-    <property name="Solid" value="true"/>
+    <property name="Solid" value="false"/>
    </properties>
   </tile>
  </tileset>
@@ -63,7 +63,7 @@
  </layer>
  <layer name="Map" width="16" height="16">
   <data encoding="base64" compression="zlib">
-   eJytkNsKwCAMQ+vmdPr/H+wKCkHc7GWBvHlik0BEobs8PjdO8H52pr2ujwwJz4pOfnUDd7+FPGaMzTTsEPeQ3oyqCv54+Ve7GQr3s/CYYeVZ1v2Q93Tw7vgnb3UD4mYBNg==
+   eJytkVkKwCAMRGM3tb3/fdtAB4Jos9iB+TKT5ZmIKL2uj1fFh6hvnUnX/tHDkmdtk/neDnx7UXJXpweYlebdIr7DurPU6cgvg7leZlKSnzcPRugRmQ9F+WEPcMjk/zvMn+H4Zz7qG0Z9AW0=
   </data>
  </layer>
 </map>

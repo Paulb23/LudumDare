@@ -165,9 +165,9 @@ public class AI extends Mob {
 		
 		System.out.println(tileDistanceX + " " + tileDistanceY);
 		
-		if (!canAttack(distanceX, distanceY)) {
-			if (distanceX > -160 && distanceX < 160) {
-				if (distanceY > -160 || distanceY < 160) {
+		if (!canAttack(distanceX, distanceY) && attacking) {
+			if (distanceX > -100 && distanceX < 100) {
+				if (distanceY > -100 || distanceY < 100) {
 					   float dx = this.playerX - getX() ;
 					   float dy = this.playerY - getY() ;
 					   
@@ -196,7 +196,13 @@ public class AI extends Mob {
 		if (distanceX <= 15 && distanceY <= 15 && distanceX > -15  && distanceY > -15) {
 			attacking = true;
 			
-			if (playerY < this.getY()) {
+			if (distanceX >= -15 && distanceX <= 15 && playerX == this.getX()) {
+				if (tileDistanceX == 1) {
+					directrion = 10;
+				} else {
+					directrion = 9;
+				}
+			} else if (playerY < this.getY()) {
 				directrion = 8;
 			} else {
 				directrion = 11;
