@@ -18,7 +18,7 @@ public class Ludumdare extends StateBasedGame {
 	public static boolean SHOWFPS = true;
 	
 	
-	private static String GAMETITLE = "The Underground";
+	private static String GAMETITLE = "Undground";
 	private static int SCREENWIDTH = 800;
 	private static int SCREENHEIGHT= 600;
 	
