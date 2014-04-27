@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 
+import net.net23.paulb.ludumdare.audio.Music;
 import net.net23.paulb.ludumdare.entities.AI;
 import net.net23.paulb.ludumdare.entities.Entity;
 import net.net23.paulb.ludumdare.entities.Knight;
@@ -50,6 +51,8 @@ public class Game extends BasicGameState {
 	
 	private UnicodeFont gameOverfont;
 	
+	private Music healup;
+	
 	public Game(int state) {
 		this.state = state;
 	}
@@ -62,6 +65,7 @@ public class Game extends BasicGameState {
 		this.gameOverScreen = new Image("res/ui/gameOver.png");
 		this.gameOverScreen.setFilter(Image.FILTER_NEAREST);
 		
+		this.healup = new Music("res/audio/sfx/heal.wav");
 		
 		gameOverfont = new UnicodeFont("res/fonts/Extrude.ttf", 24, false, false);
 		gameOverfont.addAsciiGlyphs();
@@ -228,6 +232,8 @@ public class Game extends BasicGameState {
 			    	int heal = (int) (Math.floor(Math.random() * 100));
 			    	
 			    	if (heal < 26) {
+			    		this.healup.playClip(0,	false);
+			    		
 			    		this.player.heal();
 			    	}
 			    	
