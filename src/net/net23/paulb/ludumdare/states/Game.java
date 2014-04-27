@@ -85,10 +85,8 @@ public class Game extends BasicGameState {
 			
 			ShapeFill healthFill = new GradientFill(0, -5 / 2, Color.red, 20, -5 - 1, Color.orange, true);
 			
-			g.draw(new Rectangle(q.getX() - 5, q.getY()  - 5, 20, 2), healthFill);
+			g.draw(new Rectangle(q.getX() - 5, q.getY()  - 5, 20, 2));
 			g.fillRect(q.getX() - 5, q.getY()  - 5, (float) ((q.getHealth() * 0.20)), 2);
-			//g.draw(new Rectangle(q.getX() - 5, q.getY()  - 5, (float) (q.getHealth() % 20)), 2));
-			
 		}
 
 		

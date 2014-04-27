@@ -181,8 +181,6 @@ public class AI extends Mob {
 					   dx *= speed;
 					   
 					   dy *= speed;
-					    
-					   System.out.println(dy);
 					   
 					   if (dy == -1) {
 						   directrion = 1;
