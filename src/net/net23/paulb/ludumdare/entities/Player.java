@@ -1,6 +1,5 @@
 package net.net23.paulb.ludumdare.entities;
 
-import net.net23.paulb.ludumdare.audio.Music;
 import net.net23.paulb.ludumdare.maps.Level;
 
 import org.newdawn.slick.Animation;

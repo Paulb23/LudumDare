@@ -5,8 +5,10 @@ import java.util.Comparator;
 import java.util.LinkedList;
 
 import net.net23.paulb.ludumdare.audio.Music;
+import net.net23.paulb.ludumdare.collision.AABB;
 import net.net23.paulb.ludumdare.entities.AI;
 import net.net23.paulb.ludumdare.entities.Entity;
+import net.net23.paulb.ludumdare.entities.Key;
 import net.net23.paulb.ludumdare.entities.Knight;
 import net.net23.paulb.ludumdare.entities.Mob;
 import net.net23.paulb.ludumdare.entities.Player;
@@ -34,11 +36,17 @@ public class Game extends BasicGameState {
 	private int xOffset;
 	private int yOffset;
 
-	private boolean paused;
+	private boolean paused, gameWin;
 	private Image pauseScreen;
 	private Image gameOverScreen;
+	private Image gameWinScreen;
 	
 	private LinkedList<Entity> entities;
+	
+	
+	private int amountOfKeys;
+	private int keysCollected;
+	private  LinkedList<Key> keys;
 	
 	private int spawnDelay = 8000;
 	private int timer;
@@ -63,9 +71,10 @@ public class Game extends BasicGameState {
 		this.gameOverScreen = new Image("res/ui/gameOver.png");
 		this.gameOverScreen.setFilter(Image.FILTER_NEAREST);
 		
+		this.gameWinScreen = new Image("res/ui/gameWin.png");
+		this.gameWinScreen.setFilter(Image.FILTER_NEAREST);
+		
 		this.healup = new Music("res/audio/sfx/heal.wav");
-
-
 		
 		gameOverfont = new UnicodeFont("res/fonts/Extrude.ttf", 24, false, false);
 		gameOverfont.addAsciiGlyphs();
@@ -78,10 +87,31 @@ public class Game extends BasicGameState {
 	public void enter(GameContainer container, StateBasedGame game) throws SlickException {
 		this.level = new Level(12368216);
 
+		boolean keyPos[][] = this.level.getKeyPos();
+		int i = 0;
+		int j = 0;
 		
+		this.keys = new LinkedList<Key>();
 		this.entities = new LinkedList<Entity>();
-		
 		this.entities.clear();
+		this.keys.clear();
+		
+		System.out.print(keyPos[6][1]);
+		
+		for (i = 0; i < keyPos.length; i++) {
+			for (j = 0; j < keyPos.length; j++) {
+				if (keyPos[i][j]) {
+					amountOfKeys++;
+	
+					Key tmpkey = new Key(i * level.TILESIZE, j * level.TILESIZE,level.TILESIZE , level.TILESIZE, "res/textures/sprites/keys.png");
+					
+					this.keys.add(tmpkey);
+					this.entities.add(tmpkey);
+				}
+			}
+		} 
+		
+
 		
 		this.player = new Player( this.level.getPlayerSpawnX(), this.level.getPlayerSpawnY(), 16, 16, 0.1, 0.1, 100, "res/textures/sprites/player.png");
 		
@@ -96,12 +126,14 @@ public class Game extends BasicGameState {
 		this.maxEntities = 100;
 		this.amountSpawned = 0;
 		this.timer = 0;
+		this.keysCollected = 0;
+		gameWin = false;
 	}
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame gs, Graphics g) throws SlickException {
 		
-		if (!player.isDead()) {
+		if (!player.isDead() && !gameWin) {
 			g.scale(4, 4);
 			sortDepthOrder();
 			setOffset();
@@ -113,8 +145,10 @@ public class Game extends BasicGameState {
 			for (Entity q : entities) {
 				q.render(g);
 		
-				g.draw(new Rectangle(q.getX() - 3, q.getY()  - 5, 20, 2));
-				g.fillRect(q.getX() - 3, q.getY()  - 5, (float) ((q.getHealth() * 0.20)), 2);
+				if (!( q instanceof Key)) {
+					g.draw(new Rectangle(q.getX() - 3, q.getY()  - 5, 20, 2));
+					g.fillRect(q.getX() - 3, q.getY()  - 5, (float) ((q.getHealth() * 0.20)), 2);
+				}
 			}
 			
 			if (paused) {
@@ -125,6 +159,11 @@ public class Game extends BasicGameState {
 			g.translate(-xOffset, -yOffset);
 			g.scale(0.3F, 0.3F);
 			g.drawString("kills: " + kills, 10, 30);
+		} else if (gameWin) {
+			g.setFont(gameOverfont);
+			g.drawImage(gameWinScreen, 0, 0);
+			
+			g.drawString("Kills: " + kills + '\n' +"Health Increased: " + player.getMaxHealth(), 250, 360);
 		} else {
 			g.setFont(gameOverfont);
 			g.drawImage(gameOverScreen, 0, 0);
@@ -138,12 +177,12 @@ public class Game extends BasicGameState {
 		Input input = gc.getInput();
 
 		
-		if (!paused && !player.isDead()) {
+		if (!paused && !player.isDead() && !gameWin) {
 			player.checkCollision(this.level);
 			player.update(input, delta);
 			
 			for (Entity i : entities) {
-				if (i != player) {
+				if (i != player && !(i instanceof Key)) {
 					((AI) i).checkCollision(this.level, player);
 					((AI) i).move(delta);
 					
@@ -156,9 +195,21 @@ public class Game extends BasicGameState {
 			playerBoundsCheck();
 			playerAttack();
 			
-
-
 			entityHealthCheck();
+			
+			for ( Key i : keys) {
+				if (AABB.CollisionCheck(player, i)) {
+					keysCollected += 1;
+					keys.remove(i);
+					entities.remove(i);
+					
+					if (keysCollected >= amountOfKeys) {
+						this.gameWin = true;
+					}
+					
+					break;
+				}
+			}
 			
 			timer += delta;
 			if (timer >= spawnDelay) {
@@ -179,6 +230,8 @@ public class Game extends BasicGameState {
 			if (input.isKeyPressed(Input.KEY_P) || !gc.hasFocus()) {
 				paused = true;
 			}
+			
+		} else if (gameWin) {
 			
 		} else if (player.isDead())  {
 			
@@ -228,24 +281,26 @@ public class Game extends BasicGameState {
 	
 	public void entityHealthCheck() {
 		for (int i = entities.size() - 1; i >= 0; --i) {
-		    if (((Mob) entities.get(i)).getHealth() < 0) {
-		    	if (entities.get(i) != player) {
-		    		entities.remove(i);
-		    		kills++;
-		    		
-			    	int heal = (int) (Math.floor(Math.random() * 100));
-			    	
-			    	if (heal < 26) {
-			    		this.healup.playClip(0,	false);
+			if (!(entities.get(i) instanceof Key)) {
+			    if (((Mob) entities.get(i)).getHealth() < 0) {
+			    	if (entities.get(i) != player) {
+			    		entities.remove(i);
+			    		kills++;
 			    		
-			    		this.player.heal();
+				    	int heal = (int) (Math.floor(Math.random() * 100));
+				    	
+				    	if (heal < 26) {
+				    		this.healup.playClip(0,	false);
+				    		
+				    		this.player.heal();
+				    	}
+				    	
+				    	break;
+			    	} else { 
+			    		player.setHealth(-10); 
 			    	}
-			    	
-			    	break;
-		    	} else { 
-		    		player.setHealth(-10); 
-		    	}
-		    }
+			    }
+			}
 		}
 	} 
 	
@@ -312,7 +367,7 @@ public class Game extends BasicGameState {
 	}
 	
 	private void createEntity(int health) {
-		if ( this.entities.size() < maxEntities) {
+		if ( (this.entities.size() - amountOfKeys) < maxEntities) {
 			int x = (int) Math.floor((Math.random() * (level.getMapWidth() / level.TILESIZE)));
 			int y = (int) Math.floor((Math.random() * (level.getMapWidth() / level.TILESIZE)));
 			

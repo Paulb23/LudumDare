@@ -12,7 +12,7 @@ public class Level {
 	
 	private TiledMap map;
 	
-	private boolean blocked[][];
+	private boolean blocked[][], keypos[][];
 	private Tile tiles[][];
 	
 	private boolean aiSpawn[][];
@@ -30,6 +30,7 @@ public class Level {
 		blocked = new boolean[this.map.getWidth()][this.map.getHeight()];
 		tiles = new Tile[this.map.getWidth()][this.map.getHeight()];
 		aiSpawn = new boolean[this.map.getWidth()][this.map.getHeight()];
+		keypos = new boolean[this.map.getWidth()][this.map.getHeight()];
 		
 		for (int i = 0; i < this.map.getWidth(); i++) {
 			for (int j = 0; j < this.map.getHeight(); j++) {
@@ -46,6 +47,12 @@ public class Level {
 					aiSpawn[i][j] = true;
 				} else {
 					aiSpawn[i][j] = false;
+				}
+				
+				if (tileID == 14) {
+					keypos[i][j] = true;
+				} else {
+					keypos[i][j] = false;
 				}
 				
 				if (solid.equals("true")) {
@@ -78,5 +85,9 @@ public class Level {
 	
 	public int getMapHeight() {
 		return this.map.getHeight() * TILESIZE;
+	}
+
+	public boolean[][] getKeyPos() {
+		return this.keypos;
 	}
 }
