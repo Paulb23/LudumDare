@@ -33,6 +33,7 @@ public class Player extends Mob {
 	private int directrion;
 	
 	private boolean dead;
+	private double maxHealth;
 	
 	private int beforeAttackdir;
 	
@@ -83,6 +84,7 @@ public class Player extends Mob {
 		this.dead = false;
 		this.attacking = false;
 		this.beforeAttackdir = 0;
+		maxHealth = this.getHealth();
 	}
 	
 	
@@ -229,11 +231,24 @@ public class Player extends Mob {
 		this.dead = false;
 	}
 	
+	public void heal() {
+	 int extendHealth = (int) (Math.floor(Math.random() * 100));
+	 
+	 if (extendHealth < 5) {
+		 this.maxHealth += 20;
+	 }
+	 
+	 this.setHealth(maxHealth);
+	}
+	
 	public int getDirection() {
 		return this.directrion;
 	}
 
-
+	public double getMaxHealth() {
+		return this.maxHealth;
+	}
+	
 	public int getDamage() {
 		return 1;
 	}

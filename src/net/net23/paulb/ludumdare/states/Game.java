@@ -11,7 +11,6 @@ import net.net23.paulb.ludumdare.entities.Mob;
 import net.net23.paulb.ludumdare.entities.Player;
 import net.net23.paulb.ludumdare.maps.Level;
 
-import org.lwjgl.Sys;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -41,6 +40,7 @@ public class Game extends BasicGameState {
 	private int timer;
 	private int kills;
 	private int maxEntities;
+	private int amountSpawned;
 	
 	public Game(int state) {
 		this.state = state;
@@ -62,7 +62,7 @@ public class Game extends BasicGameState {
 		this.player = new Player( this.level.getPlayerSpawnX(), this.level.getPlayerSpawnY(), 16, 16, 0.1, 0.1, 100, "res/textures/sprites/player.png");
 		
 		entities.add(this.player);
-		createEntity();
+		createEntity(100);
 		
 		this.xOffset = 0;
 		this.yOffset = 0;
@@ -70,6 +70,7 @@ public class Game extends BasicGameState {
 		this.paused = false;
 		this.kills = 0;
 		this.maxEntities = 10;
+		this.amountSpawned = 0;
 	}
 
 	@Override
@@ -130,7 +131,12 @@ public class Game extends BasicGameState {
 			if (timer >= spawnDelay) {
 				timer = 0;
 				
-				createEntity();
+				int health = 100;
+				
+				if (amountSpawned % 10 == 0) {
+					health += amountSpawned * 2; 
+				}
+				createEntity(health);
 			}
 			
 			
@@ -138,7 +144,7 @@ public class Game extends BasicGameState {
 				gs.enterState(0);
 			}
 			
-			if (input.isKeyPressed(Input.KEY_P)) {
+			if (input.isKeyPressed(Input.KEY_P) || !gc.hasFocus()) {
 				paused = true;
 			}
 			
@@ -191,6 +197,17 @@ public class Game extends BasicGameState {
 		    if (((Mob) entities.get(i)).getHealth() < 0) {
 		    	entities.remove(i);
 		    	kills++;
+		    	
+		    	int heal = (int) (Math.floor(Math.random() * 100));
+		    	
+		    	System.out.println(heal);
+		    	
+		    	if (heal < 26) {
+		    		this.player.heal();
+		    	}
+		    	
+		    	System.out.println(this.player.getMaxHealth());
+		    	
 		    	break;
 		    }
 		}
@@ -258,7 +275,7 @@ public class Game extends BasicGameState {
 		}
 	}
 	
-	private void createEntity() {
+	private void createEntity(int health) {
 		if ( this.entities.size() < maxEntities) {
 			int x = (int) Math.floor((Math.random() * (level.getMapWidth() / level.TILESIZE)));
 			int y = (int) Math.floor((Math.random() * (level.getMapWidth() / level.TILESIZE)));
@@ -273,7 +290,7 @@ public class Game extends BasicGameState {
 			}
 			
 	
-			entities.add(new Knight( x * level.TILESIZE, y * level.TILESIZE, 16, 16, 0.1, 0.1, 100, "res/textures/sprites/knight.png"));
+			entities.add(new Knight( x * level.TILESIZE, y * level.TILESIZE, 16, 16, 0.1, 0.1, health, "res/textures/sprites/knight.png"));
 		}
 	}
 
