@@ -1,5 +1,6 @@
 package net.net23.paulb.ludumdare.entities;
 
+import net.net23.paulb.ludumdare.audio.Music;
 import net.net23.paulb.ludumdare.maps.Level;
 
 import org.newdawn.slick.Animation;
@@ -36,6 +37,8 @@ public class Player extends Mob {
 	private double maxHealth;
 	
 	private int beforeAttackdir;
+	
+	private Music gameOver;
 	
 	private boolean canMoveDown, canMoveUp, canMoveRight, canMoveLeft, attacking;
 	
@@ -86,6 +89,7 @@ public class Player extends Mob {
 		this.attacking = false;
 		this.beforeAttackdir = 0;
 		maxHealth = this.getHealth();
+		this.gameOver = new Music("res/audio/sfx/gameover.wav");
 	}
 	
 	
@@ -144,6 +148,7 @@ public class Player extends Mob {
 	
 	public void update(Input input, int delta) {
 		if (this.getHealth() <= 0) {
+			this.gameOver.playClip(-20, false);
 			this.dead = true;
 		}
 		

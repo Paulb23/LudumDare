@@ -57,6 +57,8 @@ public class Game extends BasicGameState {
 	private UnicodeFont gameOverfont;
 	
 	private Music healup;
+	private Music collect;
+	private Music gamewin;
 	
 	public Game(int state) {
 		this.state = state;
@@ -75,6 +77,8 @@ public class Game extends BasicGameState {
 		this.gameWinScreen.setFilter(Image.FILTER_NEAREST);
 		
 		this.healup = new Music("res/audio/sfx/heal.wav");
+		this.collect = new Music("res/audio/sfx/collect.wav");
+		this.gamewin = new Music("res/audio/sfx/gamewin.wav");
 		
 		gameOverfont = new UnicodeFont("res/fonts/Extrude.ttf", 24, false, false);
 		gameOverfont.addAsciiGlyphs();
@@ -95,8 +99,6 @@ public class Game extends BasicGameState {
 		this.entities = new LinkedList<Entity>();
 		this.entities.clear();
 		this.keys.clear();
-		
-		System.out.print(keyPos[6][1]);
 		
 		for (i = 0; i < keyPos.length; i++) {
 			for (j = 0; j < keyPos.length; j++) {
@@ -203,7 +205,10 @@ public class Game extends BasicGameState {
 					keys.remove(i);
 					entities.remove(i);
 					
+					this.collect.playClip(0, false);
+					
 					if (keysCollected >= amountOfKeys) {
+						gamewin.playClip(-10, false);
 						this.gameWin = true;
 					}
 					
