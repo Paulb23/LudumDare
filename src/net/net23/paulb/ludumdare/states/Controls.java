@@ -1,8 +1,5 @@
 package net.net23.paulb.ludumdare.states;
 
-import net.net23.paulb.ludumdare.audio.Music;
-
-import org.lwjgl.opengl.Display;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;

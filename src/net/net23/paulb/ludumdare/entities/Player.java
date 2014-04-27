@@ -158,7 +158,6 @@ public class Player extends Mob {
 	public void checkCollision(Level level) {
 		int tileX = this.getX() / level.TILESIZE;
 		int tileY = this.getY() / level.TILESIZE;
-		
 
 		if (level.collision(tileX, tileY     )) { canMoveUp = false;}    else {canMoveUp = true;} 
 		if (level.collision(tileX, tileY + 1 )) { canMoveDown = false;}  else {canMoveDown = true;} 

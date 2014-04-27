@@ -182,7 +182,6 @@ public class Game extends BasicGameState {
 	@Override
 	public void update(GameContainer gc, StateBasedGame gs, int delta) throws SlickException {
 		Input input = gc.getInput();
-
 		
 		if (!paused && !player.isDead() && !gameWin) {
 			player.checkCollision(this.level);

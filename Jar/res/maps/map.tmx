@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="16" height="16" tilewidth="16" tileheight="16">
+ <tileset firstgid="1" name="tiles" tilewidth="16" tileheight="16">
+  <properties>
+   <property name="Solid" value="true"/>
+  </properties>
+  <image source="../textures/tiles/tiles.png" trans="ff00ff" width="176" height="32"/>
+  <tile id="0">
+   <properties>
+    <property name="Solid" value="true"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="Solid" value="true"/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="Solid" value="true"/>
+   </properties>
+  </tile>
+  <tile id="4">
+   <properties>
+    <property name="Solid" value="true"/>
+   </properties>
+  </tile>
+  <tile id="5">
+   <properties>
+    <property name="Solid" value="true"/>
+   </properties>
+  </tile>
+  <tile id="6">
+   <properties>
+    <property name="Solid" value="true"/>
+   </properties>
+  </tile>
+  <tile id="7">
+   <properties>
+    <property name="Solid" value="true"/>
+   </properties>
+  </tile>
+  <tile id="8">
+   <properties>
+    <property name="Solid" value="true"/>
+   </properties>
+  </tile>
+  <tile id="9">
+   <properties>
+    <property name="Solid" value="true"/>
+   </properties>
+  </tile>
+  <tile id="10">
+   <properties>
+    <property name="Solid" value="false"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="background" width="16" height="16">
+  <data encoding="base64" compression="zlib">
+   eJzjYWBg4BnFo3gUj0gMAB1oDAE=
+  </data>
+ </layer>
+ <layer name="Map" width="16" height="16">
+  <data encoding="base64" compression="zlib">
+   eJy1U9EKgCAMnGVpRf3/5+Zgg2HuNKKDe3HedjsxEFEQboVzh6u5XzNRHwvo0dJPjbP4Yb7ngXfPUj8d3WFq2kMzy1JvwesXgWdPw9hlFtIj2Pw8/QX0Nj/WI681NEPtMeK/lx/yinxoDomebzey00iOf+jVm/cP3vAGZdQCCQ==
+  </data>
+ </layer>
+</map>
