@@ -56,7 +56,7 @@ public class Game extends BasicGameState {
 		
 		entities.add(this.player);
 		//entities.add(new Knight( this.level.getPlayerSpawnX(), this.level.getPlayerSpawnY(), 16, 16, 0.1, 0.1, 100, "res/textures/sprites/knight.png"));
-		//entities.add(new Knight( this.level.getPlayerSpawnX(), this.level.getPlayerSpawnY() - 50, 16, 16, 0.1, 0.1, 100, "res/textures/sprites/knight.png"));
+		entities.add(new Knight( this.level.getPlayerSpawnX(), this.level.getPlayerSpawnY() - 50, 16, 16, 0.1, 0.1, 100, "res/textures/sprites/knight.png"));
 		
 		this.xOffset = 0;
 		this.yOffset = 0;
@@ -98,6 +98,11 @@ public class Game extends BasicGameState {
 				if (i != player) {
 					((AI) i).checkCollision(this.level, player);
 					((AI) i).move(delta);
+					
+					if (((AI) i).getAttacking()) {
+						player.takeDamage(((AI) i).getDamage());
+						System.out.println(player.getHealth());
+					}
 				}
 			}
 			

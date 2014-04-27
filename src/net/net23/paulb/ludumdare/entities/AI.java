@@ -157,11 +157,19 @@ public class AI extends Mob {
 		}
 		
 		
-		if (distanceX <= 10 || distanceY <= 10) {
-		//	attacking = true;
+		if (distanceX <= 10 && distanceY <= 10) {
+			attacking = true;
 		} else {
-		//	attacking = false;
+			attacking = false;
 		}
+	}
+	
+	public boolean getAttacking() {
+		return this.attacking;
+	}
+	
+	public float getDamage() {
+		return 0.1f;
 	}
 	
 }

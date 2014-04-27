@@ -27,6 +27,7 @@ public class Menu extends BasicGameState {
 	public void init(GameContainer gc, StateBasedGame gs) throws SlickException {
 		this.title = new Image("res/ui/title.png");
 		this.music = new Music("res/audio/music/menumusic.wav");
+		this.music.playClip(-30, true);
 	}
 	
 	@Override
@@ -43,13 +44,8 @@ public class Menu extends BasicGameState {
 	public void update(GameContainer gc, StateBasedGame gs, int delta) throws SlickException {
 		Input input = gc.getInput();
 		
-		if (!music.getIsplaying()) {
-			this.music.playClip((float) -25, true);
-		}
-		
 		if (input.isKeyDown(Input.KEY_ENTER)) {
 			gc.getInput();
-			this.music.stopClip();
 			gs.enterState(1, new EmptyTransition(), new SelectTransition());
 		}
 		
