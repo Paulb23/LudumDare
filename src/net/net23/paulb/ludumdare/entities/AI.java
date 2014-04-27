@@ -23,6 +23,11 @@ public class AI extends Mob {
 	private Animation walkLeft;
 	private Animation walkDown;
 	
+	private Animation attackUp;
+	private Animation attackRight;
+	private Animation attackLeft;
+	private Animation attackDown;
+	
 	private int directrion;
 	
 	private boolean dead, walkedleft, walkedright;
@@ -45,11 +50,20 @@ public class AI extends Mob {
 			Image[] walkrighti = {this.spriteSheet.getSprite(1, 1), this.spriteSheet.getSprite(2, 1) };
 			Image[] walkleftti = {this.spriteSheet.getSprite(2, 2), this.spriteSheet.getSprite(1, 2) };
 			Image[] walkdowni = {this.spriteSheet.getSprite(1, 3), this.spriteSheet.getSprite(2, 3) };
+			Image[] attackupi = {this.spriteSheet.getSprite(0, 4), this.spriteSheet.getSprite(1, 4), this.spriteSheet.getSprite(1, 4), this.spriteSheet.getSprite(1, 4) };
+			Image[] attackrighti = {this.spriteSheet.getSprite(0, 5), this.spriteSheet.getSprite(1, 5), this.spriteSheet.getSprite(1, 5), this.spriteSheet.getSprite(1, 5) };
+			Image[] attacklefti = {this.spriteSheet.getSprite(0, 6), this.spriteSheet.getSprite(1, 6), this.spriteSheet.getSprite(1, 6), this.spriteSheet.getSprite(1, 6) };
+			Image[] attackdowni = {this.spriteSheet.getSprite(0, 7), this.spriteSheet.getSprite(1, 7), this.spriteSheet.getSprite(1, 7), this.spriteSheet.getSprite(1, 7) };
 			
 			this.walkUp = new Animation(walkupi, 250);
 			this.walkRight = new Animation(walkrighti, 250);
 			this.walkLeft = new Animation(walkleftti, 250);
 			this.walkDown = new Animation(walkdowni, 250);
+			
+			this.attackUp = new Animation(attackupi, 250); 
+			this.attackRight = new Animation(attackrighti, 250); 
+			this.attackLeft = new Animation(attacklefti, 250); 
+			this.attackDown = new Animation(attackdowni, 250); 
 			
 			this.idleUp = spriteSheet.getSprite(0, 0);
 			this.idleRight = spriteSheet.getSprite(0, 1);
@@ -111,6 +125,28 @@ public class AI extends Mob {
 			case 7:
 				g.drawAnimation(this.walkDown, this.getX() , this.getY() );
 				break;
+			case 8:
+				g.drawAnimation(this.attackUp, this.getX(), this.getY());
+				break;
+			case 9:
+				g.drawAnimation(this.attackRight, this.getX(), this.getY());
+				break;
+			case 10:
+				g.drawAnimation(this.attackLeft, this.getX(), this.getY());
+				break;
+			case 11:
+				g.drawAnimation(this.attackDown, this.getX(), this.getY() );
+				break;
+		}
+		
+		if (attackUp.getFrame() == 3 || attackRight.getFrame() == 3  || attackLeft.getFrame() == 3  || attackDown.getFrame() == 3) {
+			attacking = false;
+			directrion = beforeAttackdir;
+			
+			attackUp.restart();	
+			attackRight.restart();	
+			attackLeft.restart();	
+			attackDown.restart();	
 		}
 	}
 	
@@ -129,7 +165,7 @@ public class AI extends Mob {
 		
 		System.out.println(tileDistanceX + " " + tileDistanceY);
 		
-		if (!attacking) {
+		if (!canAttack(distanceX, distanceY)) {
 			if (distanceX > -160 && distanceX < 160) {
 				if (distanceY > -160 || distanceY < 160) {
 					   float dx = this.playerX - getX() ;
@@ -143,7 +179,7 @@ public class AI extends Mob {
 					    }
 	
 					      //scale the vector based on our movement speed
-					   float speed = 2f;
+					   float speed = 1f;
 					   dx *= speed;
 					   
 					   dy *= speed;
@@ -157,8 +193,15 @@ public class AI extends Mob {
 		}
 		
 		
-		if (distanceX <= 10 && distanceY <= 10) {
+		if (distanceX <= 15 && distanceY <= 15 && distanceX > -15  && distanceY > -15) {
 			attacking = true;
+			
+			if (playerY < this.getY()) {
+				directrion = 8;
+			} else {
+				directrion = 11;
+			}
+			
 		} else {
 			attacking = false;
 		}
@@ -172,4 +215,10 @@ public class AI extends Mob {
 		return 0.1f;
 	}
 	
+	private boolean canAttack(int distanceX, int distanceY) {
+		System.out.println("X: " + distanceX + " Y: " + distanceY);
+		
+		return (distanceX <= 15 && distanceY <= 15 && distanceX > -15  && distanceY > -15) ? true : false;
+
+	}
 }
