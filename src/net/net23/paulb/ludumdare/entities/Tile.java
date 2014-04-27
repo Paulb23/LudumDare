@@ -22,4 +22,9 @@ public class Tile extends Entity {
 	public void render(Graphics g) {
 		
 	}
+
+	@Override
+	public double getHealth() {
+		return hardness;
+	}
 }

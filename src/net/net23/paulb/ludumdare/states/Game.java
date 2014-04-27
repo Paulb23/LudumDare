@@ -11,11 +11,17 @@ import net.net23.paulb.ludumdare.entities.Mob;
 import net.net23.paulb.ludumdare.entities.Player;
 import net.net23.paulb.ludumdare.maps.Level;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.ShapeFill;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.fills.GradientFill;
+import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Shape;
+import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.EmptyTransition;
@@ -76,6 +82,13 @@ public class Game extends BasicGameState {
 		
 		for (Entity q : entities) {
 			q.render(g);
+			
+			ShapeFill healthFill = new GradientFill(0, -5 / 2, Color.red, 20, -5 - 1, Color.orange, true);
+			
+			g.draw(new Rectangle(q.getX() - 5, q.getY()  - 5, 20, 2), healthFill);
+			g.fillRect(q.getX() - 5, q.getY()  - 5, (float) ((q.getHealth() * 0.20)), 2);
+			//g.draw(new Rectangle(q.getX() - 5, q.getY()  - 5, (float) (q.getHealth() % 20)), 2));
+			
 		}
 
 		
