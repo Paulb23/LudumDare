@@ -50,7 +50,6 @@ public class Menu extends BasicGameState {
 		}
 		
 		if (input.isKeyPressed(Input.KEY_C)) {
-			gc.getInput();
 			gs.enterState(2, new EmptyTransition(), new SelectTransition());
 		}
 		
